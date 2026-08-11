@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Lacold is a restrained family of monochrome themes for editors, terminals, and developer tools.">
+  <meta name="theme-color" content="#FAFAF9">
+  <title>Lacold — restrained monochrome themes</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#preview">Skip to preview</a>
+  <header class="site-header">
+    <a class="wordmark" href="#top" aria-label="Lacold home">
+      <span class="mark" aria-hidden="true"></span>
+      <span>Lacold</span>
+    </a>
+    <div class="header-meta">
+      <span>Air collection</span>
+      <a id="repository-link" href="https://github.com/ecnelises/lacold-theme">GitHub ↗</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">One hue. Two modes. Less noise.</p>
+        <h1 id="hero-title">Color,<br><em>held back.</em></h1>
+        <p class="lede">A restrained theme system for the tools around your code. Neutral text carries the work; one deliberate color carries attention.</p>
+      </div>
+
+      <div class="theme-controls" aria-label="Theme controls">
+        <div class="control-row">
+          <span class="control-label">Color</span>
+          <div id="color-options" class="color-options" role="group" aria-label="Choose an accent color"></div>
+        </div>
+        <div class="control-row">
+          <span class="control-label">Mode</span>
+          <div class="mode-options" role="group" aria-label="Choose a color mode">
+            <button type="button" data-mode="light" aria-pressed="true">Light</button>
+            <button type="button" data-mode="dark" aria-pressed="false">Dark</button>
+          </div>
+        </div>
+        <div class="control-row collection-row">
+          <span class="control-label">Ground</span>
+          <span class="collection-name">Air</span>
+          <span class="future-note">Dense, later</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="preview" class="preview-section" aria-labelledby="preview-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-index">01 / Live specimen</p>
+          <h2 id="preview-title">The same quiet,<br>wherever you work.</h2>
+        </div>
+        <a id="download-link" class="download-link" href="https://github.com/ecnelises/lacold-theme/releases/latest">Get <span id="download-theme">Air Blue</span> ↘</a>
+      </div>
+
+      <div class="editor-shell" aria-label="Code editor theme preview">
+        <div class="editor-titlebar">
+          <div class="window-controls" aria-hidden="true"><i></i><i></i><i></i></div>
+          <span>lacold.rb</span>
+          <span class="editor-branch">main</span>
+        </div>
+        <div class="editor-body">
+          <aside class="file-rail" aria-label="Example project files">
+            <p>EXPLORER</p>
+            <ul>
+              <li><span class="caret">⌄</span> lacold</li>
+              <li class="active"><span>◇</span> lacold.rb</li>
+              <li><span>◇</span> palette.rb</li>
+              <li><span>◇</span> theme.rb</li>
+              <li><span>◇</span> README.md</li>
+            </ul>
+          </aside>
+          <div class="code-pane" role="img" aria-label="Ruby code using the selected Lacold theme">
+            <div class="code-line"><span class="ln">1</span><span class="comment"># One chromatic voice, carefully placed.</span></div>
+            <div class="code-line"><span class="ln">2</span></div>
+            <div class="code-line current"><span class="ln">3</span><span class="keyword">module</span> <span class="type">Lacold</span></div>
+            <div class="code-line"><span class="ln">4</span>&nbsp;&nbsp;<span class="keyword">class</span> <span class="type">Theme</span></div>
+            <div class="code-line"><span class="ln">5</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">def</span> <span class="function">initialize</span>(palette)</div>
+            <div class="code-line"><span class="ln">6</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@palette = palette.freeze</div>
+            <div class="code-line"><span class="ln">7</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">end</span></div>
+            <div class="code-line"><span class="ln">8</span></div>
+            <div class="code-line"><span class="ln">9</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">def</span> <span class="function">accent</span></div>
+            <div class="code-line"><span class="ln">10</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;palette.fetch(<span class="symbol">:primary</span>)</div>
+            <div class="code-line"><span class="ln">11</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">end</span></div>
+            <div class="code-line"><span class="ln">12</span>&nbsp;&nbsp;<span class="keyword">end</span></div>
+            <div class="code-line"><span class="ln">13</span><span class="keyword">end</span><span class="cursor" aria-hidden="true"></span></div>
+          </div>
+        </div>
+        <div class="editor-status">
+          <span>Air / <strong id="status-color">Blue</strong></span>
+          <span>Ln 13, Col 4&nbsp;&nbsp; UTF-8&nbsp;&nbsp; Ruby</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="principles" aria-labelledby="principles-title">
+      <div>
+        <p class="section-index">02 / System</p>
+        <h2 id="principles-title">Monochrome<br>doesn't mean flat.</h2>
+      </div>
+      <div class="principle-copy">
+        <p>Lacold separates hierarchy from hue. Background, surface, border, text, and muted text form a neutral architecture. A single authored color scale marks focus, syntax, search, diagnostics, and change.</p>
+        <div class="state-row" aria-label="State treatments">
+          <span class="state focus-state">Focus</span>
+          <span class="state warning-state">Warning</span>
+          <span class="state deleted-state">Deleted</span>
+          <span class="state selected-state">Selected</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="palette-section" aria-labelledby="palette-title">
+      <div class="section-heading compact">
+        <div>
+          <p class="section-index">03 / Palette</p>
+          <h2 id="palette-title">Authored by hand.</h2>
+        </div>
+        <p>Every Light and Dark value is chosen, not guessed.</p>
+      </div>
+      <div id="palette-grid" class="palette-grid" aria-live="polite"></div>
+    </section>
+
+    <section class="targets-section" aria-labelledby="targets-title">
+      <div class="section-heading compact">
+        <div>
+          <p class="section-index">04 / Carriers</p>
+          <h2 id="targets-title">One source,<br>many surfaces.</h2>
+        </div>
+        <p><span id="available-count">0</span> adapters generated from the same palette contract.</p>
+      </div>
+      <div id="target-grid" class="target-grid"></div>
+    </section>
+  </main>
+
+  <footer>
+    <a class="wordmark" href="#top"><span class="mark" aria-hidden="true"></span><span>Lacold</span></a>
+    <p>Generated with Ruby. Released under MIT.</p>
+    <p>Air / <span id="footer-color">Blue</span> / <span id="footer-mode">Light</span></p>
+  </footer>
+
+  <noscript>This preview needs JavaScript to switch between generated themes.</noscript>
+</body>
+</html>

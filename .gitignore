@@ -1,0 +1,6 @@
+/dist/
+/_site/
+/.bundle/
+/vendor/bundle/
+*.gem
+
