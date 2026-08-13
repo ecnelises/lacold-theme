@@ -45,7 +45,6 @@
         <div class="control-row collection-row">
           <span class="control-label">Ground</span>
           <span class="collection-name">Air</span>
-          <span class="future-note">Dense, later</span>
         </div>
       </div>
     </section>
@@ -71,7 +70,7 @@
             <ul>
               <li><span class="caret">⌄</span> lacold</li>
               <li class="active"><span>◇</span> lacold.rb</li>
-              <li><span>◇</span> palette.rb</li>
+              <li><span>◇</span> palettes.rb</li>
               <li><span>◇</span> theme.rb</li>
               <li><span>◇</span> README.md</li>
             </ul>
@@ -81,12 +80,12 @@
             <div class="code-line"><span class="ln">2</span></div>
             <div class="code-line current"><span class="ln">3</span><span class="keyword">module</span> <span class="type">Lacold</span></div>
             <div class="code-line"><span class="ln">4</span>&nbsp;&nbsp;<span class="keyword">class</span> <span class="type">Theme</span></div>
-            <div class="code-line"><span class="ln">5</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">def</span> <span class="function">initialize</span>(palette)</div>
-            <div class="code-line"><span class="ln">6</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@palette = palette.freeze</div>
+            <div class="code-line"><span class="ln">5</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">def</span> <span class="function">initialize</span>(colors)</div>
+            <div class="code-line"><span class="ln">6</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@colors = colors.freeze</div>
             <div class="code-line"><span class="ln">7</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">end</span></div>
             <div class="code-line"><span class="ln">8</span></div>
             <div class="code-line"><span class="ln">9</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">def</span> <span class="function">accent</span></div>
-            <div class="code-line"><span class="ln">10</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;palette.fetch(<span class="symbol">:primary</span>)</div>
+            <div class="code-line"><span class="ln">10</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@colors.fetch(<span class="symbol">:primary</span>)</div>
             <div class="code-line"><span class="ln">11</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">end</span></div>
             <div class="code-line"><span class="ln">12</span>&nbsp;&nbsp;<span class="keyword">end</span></div>
             <div class="code-line"><span class="ln">13</span><span class="keyword">end</span><span class="cursor" aria-hidden="true"></span></div>

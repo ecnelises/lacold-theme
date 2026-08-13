@@ -6,7 +6,7 @@ require "json"
 class SiteBuilderTest < Minitest::Test
   def test_site_contains_generated_theme_data_and_all_carriers
     Dir.mktmpdir("lacold-site") do |directory|
-      Lacold::SiteBuilder.new(output_root: directory, themes: Lacold.registry.themes).build
+      Lacold::SiteBuilder.new(output_root: directory, themes: Lacold.themes).build
       data = JSON.parse(File.read(File.join(directory, "themes.json")))
 
       assert File.file?(File.join(directory, "index.html"))

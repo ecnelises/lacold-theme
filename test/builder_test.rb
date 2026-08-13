@@ -6,7 +6,7 @@ require "json"
 class BuilderTest < Minitest::Test
   def test_builder_writes_manifest_and_filtered_outputs
     Dir.mktmpdir("lacold-build") do |directory|
-      themes = Lacold.registry.themes(colors: ["purple"], modes: [:dark])
+      themes = Lacold.themes(colors: ["purple"], modes: [:dark])
       manifest = Lacold::Builder.new(
         output_root: directory,
         adapters: [Lacold::Adapters.find("kitty")],
@@ -26,7 +26,7 @@ class BuilderTest < Minitest::Test
         manifest = Lacold::Builder.new(
           output_root: directory,
           adapters: Lacold::Adapters.all,
-          themes: Lacold.registry.themes
+          themes: Lacold.themes
         ).build
         manifest.fetch("files").transform_values { |metadata| metadata.fetch("sha256") }
       end
@@ -35,4 +35,3 @@ class BuilderTest < Minitest::Test
     assert_equal digests.first, digests.last
   end
 end
-

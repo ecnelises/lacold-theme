@@ -182,7 +182,6 @@ h2 {
 
 .collection-row { grid-template-columns: 5.5rem auto 1fr; }
 .collection-name { font-weight: 650; }
-.future-note { justify-self: end; color: var(--faint); font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; }
 
 .preview-section { background: var(--surface); border-block: 1px solid var(--border); }
 .section-heading {

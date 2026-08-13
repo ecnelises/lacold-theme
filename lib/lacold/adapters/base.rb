@@ -79,12 +79,8 @@ module Lacold
         hex.delete_prefix("#")
       end
 
-      def rgb255(hex)
-        bare(hex).scan(/../).map { |component| component.to_i(16) }
-      end
-
       def rgb_line(hex, separator = " ")
-        rgb255(hex).join(separator)
+        Color.rgb(hex).join(separator)
       end
 
       def rgba_unit(hex)

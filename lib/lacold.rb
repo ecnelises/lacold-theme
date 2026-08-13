@@ -2,9 +2,7 @@
 
 require_relative "lacold/version"
 require_relative "lacold/color"
-require_relative "lacold/palette"
 require_relative "lacold/theme"
-require_relative "lacold/registry"
 require_relative "lacold/palettes"
 require_relative "lacold/binary_plist"
 require_relative "lacold/adapters"
@@ -17,19 +15,9 @@ module Lacold
   class Error < StandardError; end
 
   class << self
-    attr_writer :registry
-
-    def registry
-      @registry ||= Palettes.build_registry
-    end
-
-    def configure
-      yield registry
-    end
-
-    def reset_registry!
-      @registry = Palettes.build_registry
-    end
+    def themes(**filters) = Palettes.themes(**filters)
+    def backgrounds = [Palettes::BACKGROUND]
+    def colors = Palettes::ACCENTS.keys.sort
+    def modes = Palettes::MODES
   end
 end
-

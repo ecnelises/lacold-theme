@@ -17,9 +17,6 @@ Lacold Air Pink Light       Lacold Air Pink Dark
 Lacold Air Purple Light     Lacold Air Purple Dark
 ```
 
-Dense is reserved as a future background collection and is intentionally not
-generated yet.
-
 ## Design contract
 
 Lacold is monochrome, not merely low-saturation. Error, warning, search, diff,
@@ -76,21 +73,6 @@ Available adapters in v0.1:
 - GNOME Terminal
 - Windows Terminal
 - Konsole
-
-## Custom palettes
-
-Advanced users can register another fully authored accent with Ruby. Copy
-[`examples/custom_palette.rb`](examples/custom_palette.rb), edit every role,
-then load it during generation:
-
-```sh
-bin/lacold build --config examples/custom_palette.rb --color teal
-```
-
-Configuration files execute as Ruby code. Only load files you trust. The public
-configuration surface is `Lacold.configure` with `register_accent` and
-`register_background`; palette validation rejects missing, extra, or malformed
-roles.
 
 ## Development
 

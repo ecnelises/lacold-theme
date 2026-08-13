@@ -17,7 +17,7 @@ module Lacold
       @arguments = arguments.dup
       @out = out
       @err = err
-      @options = {output: "dist", backgrounds: ["air"]}
+      @options = {output: "dist"}
     end
 
     def run
@@ -37,7 +37,6 @@ module Lacold
 
     def build
       parse_common!(output: "dist", targets: true)
-      load_configuration!
       themes = selected_themes
       adapters = selected_adapters
       manifest = Builder.new(output_root: @options[:output], adapters: adapters, themes: themes).build
@@ -47,7 +46,6 @@ module Lacold
 
     def site
       parse_common!(output: "_site", targets: false)
-      load_configuration!
       themes = selected_themes
       SiteBuilder.new(output_root: @options[:output], themes: themes).build
       @out.puts "Built Lacold demo in #{@options[:output]}"
@@ -55,22 +53,17 @@ module Lacold
     end
 
     def check
-      parser = OptionParser.new do |options|
-        options.on("--config PATH", "Load a Ruby palette configuration") { |value| @options[:config] = value }
-      end
-      parser.parse!(@arguments)
       raise OptionParser::InvalidOption, @arguments.join(" ") unless @arguments.empty?
-      load_configuration!
       Validator.new.validate!
-      @out.puts "Validated #{Lacold.registry.themes.size} themes and #{Adapters.all.size} targets"
+      @out.puts "Validated #{Lacold.themes.size} themes and #{Adapters.all.size} targets"
       0
     end
 
     def list
       raise OptionParser::InvalidOption, @arguments.join(" ") unless @arguments.empty?
-      @out.puts "Backgrounds: #{Lacold.registry.backgrounds.keys.sort.join(', ')}"
-      @out.puts "Colors: #{Lacold.registry.colors.join(', ')}"
-      @out.puts "Modes: #{Lacold.registry.modes.join(', ')}"
+      @out.puts "Backgrounds: #{Lacold.backgrounds.join(', ')}"
+      @out.puts "Colors: #{Lacold.colors.join(', ')}"
+      @out.puts "Modes: #{Lacold.modes.join(', ')}"
       @out.puts "Targets: #{Adapters.ids.join(', ')}"
       0
     end
@@ -79,10 +72,8 @@ module Lacold
       @options[:output] = output
       parser = OptionParser.new do |options|
         options.on("-o", "--output DIRECTORY", "Output directory") { |value| @options[:output] = value }
-        options.on("--background NAMES", "Comma-separated backgrounds") { |value| @options[:backgrounds] = split(value) }
         options.on("--color NAMES", "Comma-separated colors") { |value| @options[:colors] = split(value) }
         options.on("--mode NAMES", "Comma-separated modes") { |value| @options[:modes] = split(value).map(&:to_sym) }
-        options.on("--config PATH", "Load a Ruby palette configuration") { |value| @options[:config] = value }
         if targets
           options.on("--target NAMES", "Comma-separated targets") { |value| @options[:targets] = split(value) }
         end
@@ -95,20 +86,10 @@ module Lacold
       value.split(",").map(&:strip).reject(&:empty?)
     end
 
-    def load_configuration!
-      return unless @options[:config]
-
-      path = File.expand_path(@options[:config])
-      raise Error, "configuration not found: #{path}" unless File.file?(path)
-
-      load path
-    end
-
     def selected_themes
-      Lacold.registry.themes(
-        backgrounds: @options[:backgrounds],
-        colors: @options[:colors] || Lacold.registry.colors,
-        modes: @options[:modes] || Lacold.registry.modes
+      Lacold.themes(
+        colors: @options[:colors] || Lacold.colors,
+        modes: @options[:modes] || Lacold.modes
       )
     end
 
@@ -125,12 +106,10 @@ module Lacold
         Usage:
           bin/lacold list
           bin/lacold build [--target NAMES] [--color NAMES] [--mode NAMES]
-                           [--background air] [--config FILE] [--output DIR]
+                           [--output DIR]
           bin/lacold site [--color NAMES] [--mode NAMES] [--output DIR]
-          bin/lacold check [--config FILE]
+          bin/lacold check
           bin/lacold version
-
-        Ruby configuration files execute as code. Only load files you trust.
       HELP
     end
   end

@@ -2,6 +2,9 @@
 
 module Lacold
   module Palettes
+    BACKGROUND = "air"
+    MODES = %i[light dark].freeze
+
     AIR_LIGHT = {
       bg: "#FAFAF9", surface: "#F3F4F3", raised: "#E9EBEA",
       line: "#F0F2F2", border: "#CED1D0",
@@ -69,16 +72,31 @@ module Lacold
       }
     }.freeze
 
+    AIR = {light: AIR_LIGHT, dark: AIR_DARK}.freeze
+
     module_function
 
-    def build_registry
-      Registry.new
-        .register_background("air", light: AIR_LIGHT, dark: AIR_DARK)
-        .tap do |registry|
-          ACCENTS.each do |name, modes|
-            registry.register_accent(name, light: modes.fetch(:light), dark: modes.fetch(:dark))
-          end
-        end
+    def themes(colors: ACCENTS.keys.sort, modes: MODES)
+      colors = Array(colors).map { |value| value.to_s.downcase }
+      modes = Array(modes).map { |value| value.to_s.downcase.to_sym }
+      validate!(colors, ACCENTS.keys, "color")
+      validate!(modes, MODES, "mode")
+
+      colors.product(modes).map do |color, mode|
+        Theme.new(
+          background: BACKGROUND, color: color, mode: mode,
+          neutrals: AIR.fetch(mode),
+          accent: ACCENTS.fetch(color).fetch(mode)
+        )
+      end
     end
+
+    def validate!(selected, available, kind)
+      unknown = selected - available
+      return if unknown.empty?
+
+      raise Error, "unknown #{kind}: #{unknown.join(', ')} (available: #{available.join(', ')})"
+    end
+    private_class_method :validate!
   end
 end

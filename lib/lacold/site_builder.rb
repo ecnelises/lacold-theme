@@ -43,7 +43,7 @@ module Lacold
         "version" => Lacold::VERSION,
         "repository" => "https://github.com/#{REPOSITORY}",
         "release" => "https://github.com/#{REPOSITORY}/releases/latest",
-        "themes" => themes.sort_by(&:id).map { |theme| theme.palette.to_h },
+        "themes" => themes.sort_by(&:id).map(&:to_h),
         "targets" => available
       }
     end

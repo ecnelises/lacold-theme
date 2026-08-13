@@ -58,7 +58,7 @@ module Lacold
         "backgrounds" => themes.map(&:background).uniq.sort,
         "colors" => themes.map(&:color).uniq.sort,
         "modes" => themes.map { |theme| theme.mode.to_s }.uniq.sort,
-        "variants" => themes.sort_by(&:id).map { |theme| theme.palette.to_h },
+        "variants" => themes.sort_by(&:id).map(&:to_h),
         "targets" => adapters.map do |adapter|
           {
             "id" => adapter.id,
@@ -75,4 +75,3 @@ module Lacold
     end
   end
 end
-

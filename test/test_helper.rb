@@ -7,9 +7,3 @@ require "minitest/autorun"
 require "stringio"
 require "tmpdir"
 
-class Minitest::Test
-  def setup
-    Lacold.reset_registry!
-  end
-end
-

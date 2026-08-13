@@ -2,33 +2,49 @@
 
 module Lacold
   class Theme
-    attr_reader :palette
+    attr_reader :background, :color, :mode, :neutrals, :accent
 
-    def initialize(palette)
-      @palette = palette
+    def initialize(background:, color:, mode:, neutrals:, accent:)
+      @background = background
+      @color = color
+      @mode = mode
+      @neutrals = neutrals.freeze
+      @accent = accent.freeze
+      freeze
     end
 
     def method_missing(name, *arguments)
-      return palette.public_send(name, *arguments) if arguments.empty? && palette.respond_to?(name)
-      return palette[name] if arguments.empty? && (palette.neutrals.key?(name) || palette.accent.key?(name))
+      return neutrals[name] if arguments.empty? && neutrals.key?(name)
+      return accent[name] if arguments.empty? && accent.key?(name)
 
       super
     end
 
     def respond_to_missing?(name, include_private = false)
-      palette.respond_to?(name) || palette.neutrals.key?(name) || palette.accent.key?(name) || super
+      neutrals.key?(name) || accent.key?(name) || super
+    end
+
+    def dark?
+      mode == :dark
+    end
+
+    def id
+      "lacold-#{background}-#{color}-#{mode}"
+    end
+
+    def name
+      "Lacold #{background.capitalize} #{color.capitalize} #{mode.to_s.capitalize}"
     end
 
     def accent_secondary
-      palette.accent.fetch(:secondary)
+      accent.fetch(:secondary)
     end
 
     def accent_faint
-      palette.accent.fetch(:faint)
+      accent.fetch(:faint)
     end
 
     def ansi
-      # ANSI semantics stay legible but deliberately remain within one hue.
       {
         black: bg,
         red: strong,
@@ -46,6 +62,15 @@ module Lacold
         bright_magenta: primary,
         bright_cyan: accent_secondary,
         bright_white: dark? ? "#FFFFFF" : fg
+      }
+    end
+
+    def to_h
+      {
+        "id" => id, "name" => name, "background" => background,
+        "color" => color, "mode" => mode.to_s,
+        "neutrals" => neutrals.transform_keys(&:to_s),
+        "accent" => accent.transform_keys(&:to_s)
       }
     end
 

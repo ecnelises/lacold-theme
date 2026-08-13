@@ -42,11 +42,6 @@ module Lacold
       end.first
     end
 
-    def css_rgba(value, alpha)
-      red, green, blue = rgb(value)
-      "rgba(#{red}, #{green}, #{blue}, #{alpha})"
-    end
-
     def xterm_candidates
       @xterm_candidates ||= begin
         values = [0, 95, 135, 175, 215, 255]
@@ -65,4 +60,3 @@ module Lacold
     private_class_method :xterm_candidates
   end
 end
-
