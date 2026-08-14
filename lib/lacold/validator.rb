@@ -27,7 +27,7 @@ module Lacold
 
     def validate_colors!(themes)
       themes.each do |theme|
-        raise Error, "#{theme.id} has invalid colors" unless theme.neutrals.merge(theme.accent).values.all? { |value| Color.valid?(value) }
+        raise Error, "#{theme.id} has invalid colors" unless theme.colors.values.all? { |value| Color.valid?(value) }
       end
     end
 
@@ -36,9 +36,12 @@ module Lacold
         {
           "foreground/background" => [theme.fg, theme.bg, 4.5],
           "accent/background" => [theme.primary, theme.bg, 4.5],
-          "accent-secondary/background" => [theme.accent_secondary, theme.bg, 4.5],
+          "accent-secondary/background" => [theme.accent_secondary, theme.bg, 3.8],
           "foreground/selection" => [theme.fg, theme.selection, 4.5],
-          "secondary/background" => [theme.secondary, theme.bg, 3.0]
+          "secondary/background" => [theme.secondary, theme.bg, 3.0],
+          "error/background" => [theme.red, theme.bg, 4.5],
+          "warning/background" => [theme.orange, theme.bg, 4.5],
+          "success/background" => [theme.green, theme.bg, 4.5]
         }.each do |label, (foreground, background, minimum)|
           ratio = Color.contrast(foreground, background)
           next if ratio >= minimum

@@ -1,9 +1,10 @@
 # Lacold
 
 Lacold is a restrained, generated theme family for editors, terminals, and
-developer tools. Its visual grammar comes from the local `ia.vim` reference:
-neutral colors carry text and interface hierarchy, while one chromatic family
-carries attention.
+developer tools. Its visual grammar absorbs the former local iA editor themes:
+neutral colors carry text and interface hierarchy, the selected chromatic
+family carries structure, and a small fixed semantic palette is reserved for
+feedback.
 
 The first collection is **Air**. It has five hand-authored foreground families
 — Blue, Green, Orange, Pink, and Purple — with independent Light and Dark
@@ -19,15 +20,16 @@ Lacold Air Purple Light     Lacold Air Purple Dark
 
 ## Design contract
 
-Lacold is monochrome, not merely low-saturation. Error, warning, search, diff,
-and selection treatments remain inside the chosen hue. They communicate through
-authored lightness steps, washes, weight, underline, undercurl, and strikeout —
-not through conventional red/yellow/green status colors.
+Lacold is ink-first, not monochrome. Normal syntax and interface hierarchy stay
+neutral; keywords, navigation, and selection use the chosen accent. Conventional
+red, orange, yellow, green, purple, and cyan appear only when semantics benefit
+from them: diagnostics, diffs, search, terminal ANSI colors, and shell state.
 
-Air's neutral structure is based on `~/.config/vim/colors/ia.vim`. Each accent
+Air's neutral structure is based on that iA palette. Each accent
 defines `strong`, `primary`, `secondary`, `faint`, `wash`, `selection`,
-`inactive_selection`, and `bracket` values separately for Light and Dark. No
-color-generation algorithm changes authored palette values.
+`inactive_selection`, and `bracket` values separately for Light and Dark. A
+separate Light/Dark semantic palette supplies cursor, status, wash, and terminal
+roles. No color-generation algorithm changes authored palette values.
 
 ## Generate themes
 

@@ -50,8 +50,8 @@ module Lacold
             <style name="def:string" foreground="foreground"/>
             <style name="def:number" foreground="accent-secondary"/>
             <style name="def:preprocessor" foreground="accent"/>
-            <style name="def:error" foreground="#{theme.strong}" underline="error"/>
-            <style name="def:warning" foreground="accent-secondary" bold="true"/>
+            <style name="def:error" foreground="#{theme.red}" underline="error"/>
+            <style name="def:warning" foreground="#{theme.orange}" bold="true"/>
           </style-scheme>
         XML
       end

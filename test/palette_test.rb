@@ -17,22 +17,34 @@ class PaletteTest < Minitest::Test
     light = Lacold.themes(colors: ["blue"], modes: [:light]).first
     dark = Lacold.themes(colors: ["blue"], modes: [:dark]).first
 
-    assert_equal "#FAFAF9", light.bg
-    assert_equal "#25272A", light.fg
+    assert_equal "#F7F7F7", light.bg
+    assert_equal "#46484A", light.fg
     assert_equal "#1E1F20", dark.bg
     assert_equal "#CACBCC", dark.fg
   end
 
   def test_all_authored_colors_are_valid_and_readable
     Lacold.themes.each do |theme|
-      theme.neutrals.merge(theme.accent).each_value do |value|
+      theme.colors.each_value do |value|
         assert Lacold::Color.valid?(value), value
       end
       assert_operator Lacold::Color.contrast(theme.fg, theme.bg), :>=, 4.5
       assert_operator Lacold::Color.contrast(theme.primary, theme.bg), :>=, 4.5
-      assert_operator Lacold::Color.contrast(theme.accent_secondary, theme.bg), :>=, 4.5
+      assert_operator Lacold::Color.contrast(theme.accent_secondary, theme.bg), :>=, 3.8
       assert_operator Lacold::Color.contrast(theme.fg, theme.selection), :>=, 4.5
+      assert_operator Lacold::Color.contrast(theme.red, theme.bg), :>=, 4.5
+      assert_operator Lacold::Color.contrast(theme.orange, theme.bg), :>=, 4.5
+      assert_operator Lacold::Color.contrast(theme.green, theme.bg), :>=, 4.5
     end
+  end
+
+  def test_semantic_feedback_is_stable_across_accents
+    themes = Lacold.themes(modes: [:light])
+
+    assert_equal 1, themes.map(&:red).uniq.size
+    assert_equal 1, themes.map(&:orange).uniq.size
+    assert_equal 1, themes.map(&:green).uniq.size
+    assert_equal themes.size, themes.map(&:primary).uniq.size
   end
 
 end

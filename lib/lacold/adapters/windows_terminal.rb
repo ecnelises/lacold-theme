@@ -27,7 +27,7 @@ module Lacold
         {
           "name" => theme.name,
           "background" => theme.bg, "foreground" => theme.fg,
-          "cursorColor" => theme.primary, "selectionBackground" => theme.selection,
+          "cursorColor" => theme.caret, "selectionBackground" => theme.selection,
           "black" => ansi[:black], "red" => ansi[:red], "green" => ansi[:green],
           "yellow" => ansi[:yellow], "blue" => ansi[:blue], "purple" => ansi[:magenta],
           "cyan" => ansi[:cyan], "white" => ansi[:white],

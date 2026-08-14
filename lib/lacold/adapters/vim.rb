@@ -32,15 +32,15 @@ module Lacold
           ["NormalFloat", theme.fg, theme.surface, "NONE"],
           ["FloatBorder", theme.border, theme.surface, "NONE"],
           ["FloatTitle", theme.primary, theme.surface, "bold"],
-          ["Cursor", theme.bg, theme.primary, "NONE"],
+          ["Cursor", theme.bg, theme.caret, "NONE"],
           ["CursorLine", "NONE", theme.line, "NONE"],
           ["CursorColumn", "NONE", theme.line, "NONE"],
           ["ColorColumn", "NONE", theme.surface, "NONE"],
           ["Visual", "NONE", theme.selection, "NONE"],
           ["VisualNOS", "NONE", theme.inactive_selection, "NONE"],
-          ["Search", theme.strong, theme.wash, "bold"],
-          ["CurSearch", theme.bg, theme.strong, "bold"],
-          ["IncSearch", theme.bg, theme.strong, "bold"],
+          ["Search", theme.fg, theme.yellow_wash, "NONE"],
+          ["CurSearch", theme.fg, theme.yellow_wash, "bold"],
+          ["IncSearch", theme.fg, theme.orange_wash, "bold"],
           ["MatchParen", theme.primary, theme.bracket, "bold"],
           ["LineNr", theme.line_nr, theme.bg, "NONE"],
           ["CursorLineNr", theme.line_nr_active, theme.line, "bold"],
@@ -48,33 +48,43 @@ module Lacold
           ["FoldColumn", theme.muted, theme.bg, "NONE"],
           ["Folded", theme.secondary, theme.surface, "NONE"],
           ["NonText", theme.whitespace, "NONE", "NONE"],
+          ["SpecialKey", theme.whitespace, "NONE", "NONE"],
           ["Whitespace", theme.whitespace, "NONE", "NONE"],
+          ["EndOfBuffer", theme.bg, theme.bg, "NONE"],
           ["WinSeparator", theme.border, "NONE", "NONE"],
           ["Pmenu", theme.secondary, theme.surface, "NONE"],
           ["PmenuSel", theme.fg, theme.selection, "bold"],
           ["PmenuKind", theme.accent_secondary, theme.surface, "NONE"],
           ["PmenuKindSel", theme.primary, theme.selection, "bold"],
+          ["PmenuSbar", "NONE", theme.raised, "NONE"],
+          ["PmenuThumb", "NONE", theme.faint, "NONE"],
+          ["WildMenu", theme.fg, theme.selection, "bold"],
           ["StatusLine", theme.fg, theme.raised, "NONE"],
           ["StatusLineNC", theme.muted, theme.surface, "NONE"],
           ["TabLine", theme.muted, theme.surface, "NONE"],
           ["TabLineSel", theme.fg, theme.bg, "bold"],
+          ["TabLineFill", theme.faint, theme.surface, "NONE"],
           ["Title", theme.fg, "NONE", "bold"],
           ["Directory", theme.primary, "NONE", "NONE"],
-          ["ErrorMsg", theme.strong, theme.wash, "bold"],
-          ["WarningMsg", theme.primary, theme.wash, "bold"],
+          ["ErrorMsg", theme.red, "NONE", "bold"],
+          ["WarningMsg", theme.orange, "NONE", "bold"],
+          ["ModeMsg", theme.primary, "NONE", "bold"],
           ["MoreMsg", theme.accent_secondary, "NONE", "NONE"],
           ["Question", theme.primary, "NONE", "NONE"],
-          ["DiffAdd", theme.accent_secondary, theme.wash, "NONE"],
+          ["PopupNotification", theme.fg, theme.surface, "NONE"],
+          ["DiffAdd", theme.green, theme.green_wash, "NONE"],
           ["DiffChange", theme.primary, theme.wash, "NONE"],
-          ["DiffDelete", theme.strong, theme.wash, "strikethrough"],
-          ["DiffText", theme.strong, theme.selection, "bold"],
-          ["SpellBad", "NONE", "NONE", "undercurl", theme.strong],
+          ["DiffDelete", theme.red, theme.red_wash, "NONE"],
+          ["DiffText", theme.fg, theme.yellow_wash, "bold"],
+          ["SpellBad", "NONE", "NONE", "undercurl", theme.red],
           ["SpellCap", "NONE", "NONE", "undercurl", theme.primary],
+          ["SpellLocal", "NONE", "NONE", "undercurl", theme.green],
+          ["SpellRare", "NONE", "NONE", "undercurl", theme.purple],
           ["Comment", theme.muted, "NONE", "italic"],
           ["Constant", theme.fg, "NONE", "NONE"],
           ["String", theme.fg, "NONE", "NONE"],
           ["Identifier", theme.fg, "NONE", "NONE"],
-          ["Function", theme.fg, "NONE", "bold"],
+          ["Function", theme.fg, "NONE", "NONE"],
           ["Statement", theme.primary, "NONE", "NONE"],
           ["Operator", theme.secondary, "NONE", "NONE"],
           ["PreProc", theme.accent_secondary, "NONE", "NONE"],
@@ -82,26 +92,33 @@ module Lacold
           ["Special", theme.secondary, "NONE", "NONE"],
           ["Underlined", theme.primary, "NONE", "underline"],
           ["Ignore", theme.faint, "NONE", "NONE"],
-          ["Error", theme.strong, theme.wash, "underline"],
-          ["Todo", theme.primary, theme.wash, "bold"],
-          ["DiagnosticError", theme.strong, "NONE", "bold"],
-          ["DiagnosticWarn", theme.primary, "NONE", "bold"],
-          ["DiagnosticInfo", theme.accent_secondary, "NONE", "NONE"],
+          ["Error", theme.red, theme.red_wash, "NONE"],
+          ["Todo", theme.yellow, theme.yellow_wash, "bold"],
+          ["DiagnosticError", theme.red, "NONE", "bold"],
+          ["DiagnosticWarn", theme.orange, "NONE", "bold"],
+          ["DiagnosticInfo", theme.primary, "NONE", "NONE"],
           ["DiagnosticHint", theme.accent_faint, "NONE", "NONE"],
-          ["DiagnosticUnderlineError", "NONE", "NONE", "undercurl", theme.strong],
-          ["DiagnosticUnderlineWarn", "NONE", "NONE", "undercurl", theme.primary]
+          ["DiagnosticUnderlineError", "NONE", "NONE", "undercurl", theme.red],
+          ["DiagnosticUnderlineWarn", "NONE", "NONE", "undercurl", theme.orange]
         ]
         commands = groups.map do |name, foreground, background, attributes, special|
           highlight(name, foreground, background, attributes, special)
         end.join("\n")
         links = {
-          "lCursor" => "Cursor", "CursorIM" => "Cursor", "EndOfBuffer" => "NonText",
+          "QuickFixLine" => "Search", "StatusLineTerm" => "StatusLine",
+          "StatusLineTermNC" => "StatusLineNC", "Terminal" => "Normal",
+          "lCursor" => "Cursor", "CursorIM" => "Cursor",
           "VertSplit" => "WinSeparator", "Character" => "String", "Number" => "Constant",
           "Boolean" => "Constant", "Float" => "Constant", "Conditional" => "Statement",
           "Repeat" => "Statement", "Label" => "Statement", "Keyword" => "Statement",
           "Exception" => "Statement", "Include" => "PreProc", "Define" => "PreProc",
-          "Macro" => "PreProc", "StorageClass" => "Type", "Structure" => "Type",
-          "Typedef" => "Type", "SpecialChar" => "Special", "Delimiter" => "Operator"
+          "Macro" => "PreProc", "PreCondit" => "PreProc", "StorageClass" => "Type",
+          "Structure" => "Type", "Typedef" => "Type", "SpecialChar" => "Special",
+          "SpecialComment" => "Comment", "Debug" => "Special", "Tag" => "Special",
+          "Delimiter" => "Operator", "diffAdded" => "DiffAdd",
+          "diffChanged" => "DiffChange", "diffRemoved" => "DiffDelete",
+          "GitGutterAdd" => "DiffAdd", "GitGutterChange" => "DiffChange",
+          "GitGutterDelete" => "DiffDelete"
         }.map { |from, to| "highlight! link #{from} #{to}" }.join("\n")
 
         <<~VIM
@@ -124,6 +141,8 @@ module Lacold
           #{commands}
 
           #{links}
+
+          let g:terminal_ansi_colors = #{theme.ansi.values.inspect}
 
           delfunction s:Hi
         VIM

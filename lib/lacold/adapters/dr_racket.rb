@@ -34,7 +34,7 @@ module Lacold
           "framework:syntax-color:scheme:string" => theme.fg,
           "framework:syntax-color:scheme:constant" => theme.accent_secondary,
           "framework:syntax-color:scheme:parenthesis" => theme.primary,
-          "framework:syntax-color:scheme:error" => theme.strong,
+          "framework:syntax-color:scheme:error" => theme.red,
           "framework:syntax-color:scheme:hash-colon-keyword" => theme.primary
         }
         entries = colors.map { |key, value| "           (#{key} #{vector(value)})" }.join("\n")

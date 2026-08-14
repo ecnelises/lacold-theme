@@ -25,7 +25,7 @@ module Lacold
           fg: theme.fg, bg: theme.bg, black: ansi[:black], red: ansi[:red],
           green: ansi[:green], yellow: ansi[:yellow], blue: ansi[:blue],
           magenta: ansi[:magenta], cyan: ansi[:cyan], white: ansi[:white],
-          orange: theme.strong
+          orange: theme.orange
         }
         body = entries.map { |key, value| "        #{key} #{rgb_line(value)}" }.join("\n")
         <<~KDL

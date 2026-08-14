@@ -6,28 +6,56 @@ module Lacold
     MODES = %i[light dark].freeze
 
     AIR_LIGHT = {
-      bg: "#FAFAF9", surface: "#F3F4F3", raised: "#E9EBEA",
-      line: "#F0F2F2", border: "#CED1D0",
-      fg: "#25272A", secondary: "#565A5E", muted: "#777B7F", faint: "#A3A7AA",
-      line_nr: "#8C9093", line_nr_active: "#3D4145", whitespace: "#B7BAB9"
+      bg: "#F7F7F7", surface: "#F2F2F1", raised: "#ECEDEB",
+      line: "#F3F4F2", border: "#DADBDA",
+      fg: "#46484A", secondary: "#65686B", muted: "#878A8D", faint: "#AEB1B3",
+      line_nr: "#AEB1B3", line_nr_active: "#65686B", whitespace: "#AEB1B3"
     }.freeze
 
     AIR_DARK = {
-      bg: "#1E1F20", surface: "#242526", raised: "#2B2C2D",
-      line: "#272829", border: "#3C3E40",
+      bg: "#1E1F20", surface: "#242526", raised: "#2A2C2F",
+      line: "#272829", border: "#34373B",
       fg: "#CACBCC", secondary: "#9B9D9F", muted: "#6C6E70", faint: "#505254",
-      line_nr: "#656769", line_nr_active: "#B7B9BB", whitespace: "#444648"
+      line_nr: "#4F5256", line_nr_active: "#9B9D9F", whitespace: "#4F5256"
+    }.freeze
+
+    # Status colors are deliberately independent from the selected accent.
+    # They are rare, functional annotations: diagnostics, diffs, search,
+    # terminal ANSI colors, and shell state.  This is the part of the original
+    # iA configuration that should remain legible even in a non-blue variant.
+    SEMANTIC_LIGHT = {
+      caret: "#03C0FF", selection_fg: "#2F3133", tab_bg: "#F5F5F3",
+      red: "#AA4949", red_bright: "#B65A5A", red_wash: "#F3DCDD",
+      orange: "#9D5419", orange_bright: "#B46A30", orange_wash: "#F5E1D2",
+      yellow: "#7E6000", yellow_bright: "#94720A", yellow_wash: "#F4EBC5",
+      green: "#417553", green_bright: "#528364", green_wash: "#DDEBDD",
+      purple: "#705B9D", purple_bright: "#806BAA", purple_wash: "#E8E0F1",
+      cyan: "#4D7D86", cyan_bright: "#5E8D96",
+      terminal_black: "#2F3133", terminal_bright_black: "#878A8D",
+      terminal_white: "#D7D9D7", terminal_bright_white: "#FAFAF9"
+    }.freeze
+
+    SEMANTIC_DARK = {
+      caret: "#03C0FF", selection_fg: "#DCDDDE", tab_bg: "#232528",
+      red: "#D57171", red_bright: "#DF8585", red_wash: "#492E31",
+      orange: "#D58446", orange_bright: "#E19A62", orange_wash: "#493429",
+      yellow: "#CCA643", yellow_bright: "#D8B75C", yellow_wash: "#4A4024",
+      green: "#71A482", green_bright: "#85B494", green_wash: "#2D4235",
+      purple: "#A18BCF", purple_bright: "#B09BDD", purple_wash: "#3B3149",
+      cyan: "#75A7AF", cyan_bright: "#89B7BE",
+      terminal_black: "#292B2E", terminal_bright_black: "#76797D",
+      terminal_white: "#BEC0C2", terminal_bright_white: "#E7E8E9"
     }.freeze
 
     ACCENTS = {
       "blue" => {
         light: {
-          strong: "#176EAF", primary: "#2478B8", secondary: "#3D789F", faint: "#85ADD0",
-          wash: "#DCEAF4", selection: "#CEE2F3", inactive_selection: "#E3E9ED", bracket: "#D8E7F2"
+          strong: "#2E679B", primary: "#3874AC", secondary: "#5280A9", faint: "#85ADD0",
+          wash: "#DCEAF4", selection: "#DCE8F3", inactive_selection: "#E8ECEF", bracket: "#E2EAF0"
         },
         dark: {
           strong: "#82B5DE", primary: "#6899C2", secondary: "#7E9EB8", faint: "#506F89",
-          wash: "#293C4D", selection: "#34495B", inactive_selection: "#2C3135", bracket: "#304554"
+          wash: "#293C4D", selection: "#344657", inactive_selection: "#2D3339", bracket: "#30404D"
         }
       },
       "pink" => {
@@ -73,6 +101,7 @@ module Lacold
     }.freeze
 
     AIR = {light: AIR_LIGHT, dark: AIR_DARK}.freeze
+    SEMANTICS = {light: SEMANTIC_LIGHT, dark: SEMANTIC_DARK}.freeze
 
     module_function
 
@@ -86,7 +115,8 @@ module Lacold
         Theme.new(
           background: BACKGROUND, color: color, mode: mode,
           neutrals: AIR.fetch(mode),
-          accent: ACCENTS.fetch(color).fetch(mode)
+          accent: ACCENTS.fetch(color).fetch(mode),
+          semantics: SEMANTICS.fetch(mode)
         )
       end
     end

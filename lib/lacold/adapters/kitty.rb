@@ -29,17 +29,18 @@ module Lacold
           "background #{theme.bg}",
           "foreground #{theme.fg}",
           "selection_background #{theme.selection}",
-          "selection_foreground #{theme.fg}",
-          "cursor #{theme.primary}",
+          "selection_foreground #{theme.selection_fg}",
+          "cursor #{theme.caret}",
           "cursor_text_color #{theme.bg}",
           "url_color #{theme.primary}",
           "active_border_color #{theme.primary}",
           "inactive_border_color #{theme.border}",
           "active_tab_background #{theme.bg}",
-          "active_tab_foreground #{theme.fg}",
+          "active_tab_foreground #{theme.selection_fg}",
           "inactive_tab_background #{theme.surface}",
-          "inactive_tab_foreground #{theme.muted}",
-          "bell_border_color #{theme.strong}"
+          "inactive_tab_foreground #{theme.secondary}",
+          "tab_bar_background #{theme.tab_bg}",
+          "bell_border_color #{theme.orange}"
         ]
         lines.concat(ansi.each_with_index.map { |color, index| "color#{index} #{color}" })
         lines.join("\n")
@@ -47,4 +48,3 @@ module Lacold
     end
   end
 end
-

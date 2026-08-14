@@ -31,7 +31,7 @@ module Lacold
         values = {
           titlecolor: pair(theme.fg, theme.raised, bold: true),
           statuscolor: pair(theme.fg, theme.surface),
-          errorcolor: pair(theme.strong, theme.surface, bold: true),
+          errorcolor: pair(theme.red, theme.surface, bold: true),
           selectedcolor: pair(theme.fg, theme.selection),
           stripecolor: pair(theme.fg, theme.line),
           numbercolor: pair(theme.line_nr, theme.bg),

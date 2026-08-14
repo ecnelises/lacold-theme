@@ -101,7 +101,7 @@ module Lacold
 
     def help
       <<~HELP
-        Lacold #{Lacold::VERSION} — generate restrained monochrome themes
+        Lacold #{Lacold::VERSION} — generate restrained ink-first themes
 
         Usage:
           bin/lacold list
