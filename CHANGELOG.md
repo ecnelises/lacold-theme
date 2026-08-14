@@ -7,6 +7,8 @@
   Fish, and terminal ANSI colors.
 - Preserve the local iA Vim/Emacs/Fish/Kitty/VS Code UI coverage while keeping
   generated adapters as the single source of color values.
+- Make cursor colors follow each Lacold Air accent instead of sharing the Blue
+  iA cyan cursor across all variants.
 
 ## 0.1.0
 

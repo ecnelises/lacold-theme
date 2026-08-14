@@ -46,6 +46,10 @@ module Lacold
       accent.fetch(:faint)
     end
 
+    def caret
+      primary
+    end
+
     def ansi
       {
         black: terminal_black,

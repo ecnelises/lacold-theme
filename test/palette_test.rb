@@ -47,4 +47,13 @@ class PaletteTest < Minitest::Test
     assert_equal themes.size, themes.map(&:primary).uniq.size
   end
 
+  def test_caret_tracks_each_authored_accent
+    Lacold::Palettes::MODES.each do |mode|
+      themes = Lacold.themes(modes: [mode])
+
+      assert_equal themes.size, themes.map(&:caret).uniq.size
+      themes.each { |theme| assert_equal theme.primary, theme.caret }
+    end
+  end
+
 end

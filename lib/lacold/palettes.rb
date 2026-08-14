@@ -21,10 +21,11 @@ module Lacold
 
     # Status colors are deliberately independent from the selected accent.
     # They are rare, functional annotations: diagnostics, diffs, search,
-    # terminal ANSI colors, and shell state.  This is the part of the original
+    # terminal ANSI colors, and shell state. The cursor follows the selected
+    # accent instead. This is the part of the original
     # iA configuration that should remain legible even in a non-blue variant.
     SEMANTIC_LIGHT = {
-      caret: "#03C0FF", selection_fg: "#2F3133", tab_bg: "#F5F5F3",
+      selection_fg: "#2F3133", tab_bg: "#F5F5F3",
       red: "#AA4949", red_bright: "#B65A5A", red_wash: "#F3DCDD",
       orange: "#9D5419", orange_bright: "#B46A30", orange_wash: "#F5E1D2",
       yellow: "#7E6000", yellow_bright: "#94720A", yellow_wash: "#F4EBC5",
@@ -36,7 +37,7 @@ module Lacold
     }.freeze
 
     SEMANTIC_DARK = {
-      caret: "#03C0FF", selection_fg: "#DCDDDE", tab_bg: "#232528",
+      selection_fg: "#DCDDDE", tab_bg: "#232528",
       red: "#D57171", red_bright: "#DF8585", red_wash: "#492E31",
       orange: "#D58446", orange_bright: "#E19A62", orange_wash: "#493429",
       yellow: "#CCA643", yellow_bright: "#D8B75C", yellow_wash: "#4A4024",

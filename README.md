@@ -28,8 +28,9 @@ from them: diagnostics, diffs, search, terminal ANSI colors, and shell state.
 Air's neutral structure is based on that iA palette. Each accent
 defines `strong`, `primary`, `secondary`, `faint`, `wash`, `selection`,
 `inactive_selection`, and `bracket` values separately for Light and Dark. A
-separate Light/Dark semantic palette supplies cursor, status, wash, and terminal
-roles. No color-generation algorithm changes authored palette values.
+separate Light/Dark semantic palette supplies status, wash, and terminal roles;
+the cursor follows each variant's authored primary accent. No color-generation
+algorithm changes authored palette values.
 
 ## Generate themes
 

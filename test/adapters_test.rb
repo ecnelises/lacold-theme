@@ -96,7 +96,7 @@ class AdaptersTest < Minitest::Test
 
     assert_includes fish, "set -g fish_color_error AA4949"
     assert_includes fish, "set -g fish_color_quote 417553"
-    assert_includes kitty, "cursor #03C0FF"
+    assert_includes kitty, "cursor #{theme.caret}"
     assert_includes kitty, "bell_border_color #9D5419"
     assert_includes kitty, "color1 #AA4949"
     assert_includes kitty, "color2 #417553"
