@@ -11,12 +11,23 @@ module Lacold
         files = themes.map do |theme|
           output("kitty/#{theme.id}.conf", kitty_theme(theme))
         end
+        theme_families(themes).select { |variants| complete_mode_pair?(variants) }.each do |variants|
+          by_mode = variants.to_h { |theme| [theme.mode, theme] }
+          directory = "kitty/auto/#{variants.first.family_id}"
+          files << output("#{directory}/dark-theme.auto.conf", kitty_theme(by_mode.fetch(:dark)))
+          files << output("#{directory}/light-theme.auto.conf", kitty_theme(by_mode.fetch(:light)))
+          files << output("#{directory}/no-preference-theme.auto.conf", kitty_theme(by_mode.fetch(:light)))
+        end
         files << output("kitty/README.md", <<~MARKDOWN)
           # Lacold for Kitty
 
           Copy a `.conf` file to `~/.config/kitty/themes/`, then run
           `kitten themes --reload-in=all Lacold` or include the file from
           `kitty.conf`.
+
+          To follow the operating-system appearance automatically, copy the
+          three files from the desired `auto/lacold-air-COLOR/` directory into
+          `~/.config/kitty/` and restart Kitty.
         MARKDOWN
       end
 

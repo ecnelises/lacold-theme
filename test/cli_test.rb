@@ -9,7 +9,7 @@ class CLITest < Minitest::Test
 
     assert_equal 0, status
     assert_includes output.string, "Backgrounds: air"
-    assert_includes output.string, "Colors: blue, green, orange, pink, purple"
+    assert_includes output.string, "Colors: blue, green, orange, pink, purple, rainbow"
   end
 
   def test_build_filters_target_color_and_mode
@@ -35,4 +35,3 @@ class CLITest < Minitest::Test
     assert_match(/unknown target/, errors.string)
   end
 end
-

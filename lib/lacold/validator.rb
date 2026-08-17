@@ -48,6 +48,18 @@ module Lacold
 
           raise Error, "#{theme.id} #{label} contrast #{ratio.round(2)} is below #{minimum}"
         end
+        theme.syntax.each do |role, foreground|
+          ratio = Color.contrast(foreground, theme.bg)
+          next if ratio >= 4.5
+
+          raise Error, "#{theme.id} syntax #{role} contrast #{ratio.round(2)} is below 4.5"
+        end
+        theme.spectrum.each do |role, foreground|
+          ratio = Color.contrast(foreground, theme.bg)
+          next if ratio >= 4.5
+
+          raise Error, "#{theme.id} spectrum #{role} contrast #{ratio.round(2)} is below 4.5"
+        end
       end
     end
   end

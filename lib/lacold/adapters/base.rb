@@ -93,6 +93,14 @@ module Lacold
         hex[16] = ((hex[16].to_i(16) & 3) | 8).to_s(16)
         [hex[0, 8], hex[8, 4], hex[12, 4], hex[16, 4], hex[20, 12]].join("-")
       end
+
+      def theme_families(themes)
+        themes.group_by(&:family_id).values.sort_by { |variants| variants.first.family_id }
+      end
+
+      def complete_mode_pair?(themes)
+        themes.map(&:mode).sort == %i[dark light]
+      end
     end
   end
 end

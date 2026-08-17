@@ -30,8 +30,15 @@ module Lacold
         text_styles = TEXT_STYLES.to_h do |name|
           foreground = case name
                        when "Comment", "Documentation", "CommentVar" then theme.muted
-                       when "Keyword", "ControlFlow", "Preprocessor", "Attribute", "Import" then theme.primary
-                       when "DataType", "DecVal", "BaseN", "Float", "Annotation" then theme.accent_secondary
+                       when "Keyword", "ControlFlow", "Import" then theme.syntax_color(:keyword, theme.primary)
+                       when "Preprocessor" then theme.syntax_color(:preprocessor, theme.primary)
+                       when "Attribute", "Annotation" then theme.syntax_color(:attribute, theme.primary)
+                       when "DataType", "BuiltIn", "Extension" then theme.syntax_color(:type, theme.accent_secondary)
+                       when "Function" then theme.syntax_color(:function, theme.fg)
+                       when "Char", "SpecialChar", "String", "VerbatimString", "SpecialString" then theme.syntax_color(:string, theme.fg)
+                       when "DecVal", "BaseN", "Float" then theme.syntax_color(:number, theme.accent_secondary)
+                       when "Constant" then theme.syntax_color(:constant, theme.fg)
+                       when "Operator" then theme.syntax_color(:operator, theme.fg)
                        when "Warning", "Alert", "Error" then theme.strong
                        else theme.fg
                        end

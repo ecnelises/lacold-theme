@@ -25,7 +25,7 @@ module Lacold
           <?xml version="1.0" encoding="UTF-8"?>
           <style-scheme id="#{theme.id}" name="#{xml(theme.name)}" version="1.0">
             <author>Lacold contributors</author>
-            <description>Neutral foundation with one authored hue.</description>
+            <description>Neutral foundation with restrained authored accents.</description>
             <metadata><property name="variant">#{theme.mode}</property></metadata>
             <color name="background" value="#{theme.bg}"/>
             <color name="foreground" value="#{theme.fg}"/>
@@ -44,12 +44,13 @@ module Lacold
             <style name="draw-spaces" foreground="#{theme.whitespace}"/>
             <style name="right-margin" foreground="#{theme.border}" background="background"/>
             <style name="def:comment" foreground="muted" italic="true"/>
-            <style name="def:keyword" foreground="accent"/>
-            <style name="def:type" foreground="accent-secondary"/>
-            <style name="def:function" foreground="foreground" bold="true"/>
-            <style name="def:string" foreground="foreground"/>
-            <style name="def:number" foreground="accent-secondary"/>
-            <style name="def:preprocessor" foreground="accent"/>
+            <style name="def:keyword" foreground="#{theme.syntax_color(:keyword, theme.primary)}"/>
+            <style name="def:type" foreground="#{theme.syntax_color(:type, theme.accent_secondary)}"/>
+            <style name="def:function" foreground="#{theme.syntax_color(:function, theme.fg)}" bold="true"/>
+            <style name="def:string" foreground="#{theme.syntax_color(:string, theme.fg)}"/>
+            <style name="def:number" foreground="#{theme.syntax_color(:number, theme.accent_secondary)}"/>
+            <style name="def:constant" foreground="#{theme.syntax_color(:constant, theme.fg)}"/>
+            <style name="def:preprocessor" foreground="#{theme.syntax_color(:preprocessor, theme.primary)}"/>
             <style name="def:error" foreground="#{theme.red}" underline="error"/>
             <style name="def:warning" foreground="#{theme.orange}" bold="true"/>
           </style-scheme>

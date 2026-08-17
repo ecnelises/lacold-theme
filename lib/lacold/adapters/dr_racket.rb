@@ -28,14 +28,14 @@ module Lacold
         colors = {
           "framework:default-text-color" => theme.fg,
           "framework:default-background-color" => theme.bg,
-          "framework:syntax-color:scheme:symbol" => theme.fg,
-          "framework:syntax-color:scheme:keyword" => theme.primary,
+          "framework:syntax-color:scheme:symbol" => theme.syntax_color(:symbol, theme.fg),
+          "framework:syntax-color:scheme:keyword" => theme.syntax_color(:keyword, theme.primary),
           "framework:syntax-color:scheme:comment" => theme.muted,
-          "framework:syntax-color:scheme:string" => theme.fg,
-          "framework:syntax-color:scheme:constant" => theme.accent_secondary,
-          "framework:syntax-color:scheme:parenthesis" => theme.primary,
+          "framework:syntax-color:scheme:string" => theme.syntax_color(:string, theme.fg),
+          "framework:syntax-color:scheme:constant" => theme.syntax_color(:constant, theme.accent_secondary),
+          "framework:syntax-color:scheme:parenthesis" => theme.syntax_color(:punctuation, theme.primary),
           "framework:syntax-color:scheme:error" => theme.red,
-          "framework:syntax-color:scheme:hash-colon-keyword" => theme.primary
+          "framework:syntax-color:scheme:hash-colon-keyword" => theme.syntax_color(:label, theme.primary)
         }
         entries = colors.map { |key, value| "           (#{key} #{vector(value)})" }.join("\n")
         <<~RACKET

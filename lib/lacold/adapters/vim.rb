@@ -8,24 +8,31 @@ module Lacold
       def description = "Vim colorschemes compatible with Vim 8+ and NeoVim"
 
       def render(themes)
-        outputs = themes.map do |theme|
-          output("vim/colors/#{theme.id}.vim", vim_theme(theme))
+        outputs = theme_families(themes).flat_map do |variants|
+          if complete_mode_pair?(variants)
+            by_mode = variants.to_h { |theme| [theme.mode, theme] }
+            family = variants.first
+            [output("vim/colors/#{family.family_id}.vim", adaptive_vim_theme(by_mode.fetch(:light), by_mode.fetch(:dark)))]
+          else
+            variants.map { |theme| output("vim/colors/#{theme.id}.vim", vim_theme(theme)) }
+          end
         end
         outputs << output("vim/README.md", <<~MARKDOWN)
           # Lacold for Vim and NeoVim
 
           Copy the desired file from `colors/` into `~/.vim/colors/` or
-          `~/.config/nvim/colors/`, then run `:colorscheme lacold-air-blue-light`
-          (replace the color and mode as needed).
+          `~/.config/nvim/colors/`, set `background` to `light` or `dark`, then
+          run `:colorscheme lacold-air-blue` (replace the color as needed).
 
-          The files include true-color values and restrained xterm-256 fallbacks.
+          Each complete theme family follows `background` at runtime. The files
+          include true-color values and restrained xterm-256 fallbacks.
         MARKDOWN
         outputs
       end
 
       private
 
-      def vim_theme(theme)
+      def highlight_commands(theme)
         groups = [
           ["Normal", theme.fg, theme.bg, "NONE"],
           ["NormalNC", theme.fg, theme.bg, "NONE"],
@@ -81,14 +88,16 @@ module Lacold
           ["SpellLocal", "NONE", "NONE", "undercurl", theme.green],
           ["SpellRare", "NONE", "NONE", "undercurl", theme.purple],
           ["Comment", theme.muted, "NONE", "italic"],
-          ["Constant", theme.fg, "NONE", "NONE"],
-          ["String", theme.fg, "NONE", "NONE"],
+          ["Constant", theme.syntax_color(:constant, theme.fg), "NONE", "NONE"],
+          ["String", theme.syntax_color(:string, theme.fg), "NONE", "NONE"],
+          ["Number", theme.syntax_color(:number, theme.fg), "NONE", "NONE"],
+          ["Tag", theme.syntax_color(:tag, theme.secondary), "NONE", "NONE"],
           ["Identifier", theme.fg, "NONE", "NONE"],
-          ["Function", theme.fg, "NONE", "NONE"],
-          ["Statement", theme.primary, "NONE", "NONE"],
-          ["Operator", theme.secondary, "NONE", "NONE"],
-          ["PreProc", theme.accent_secondary, "NONE", "NONE"],
-          ["Type", theme.accent_secondary, "NONE", "NONE"],
+          ["Function", theme.syntax_color(:function, theme.fg), "NONE", "NONE"],
+          ["Statement", theme.syntax_color(:keyword, theme.primary), "NONE", "NONE"],
+          ["Operator", theme.syntax_color(:operator, theme.secondary), "NONE", "NONE"],
+          ["PreProc", theme.syntax_color(:preprocessor, theme.accent_secondary), "NONE", "NONE"],
+          ["Type", theme.syntax_color(:type, theme.accent_secondary), "NONE", "NONE"],
           ["Special", theme.secondary, "NONE", "NONE"],
           ["Underlined", theme.primary, "NONE", "underline"],
           ["Ignore", theme.faint, "NONE", "NONE"],
@@ -104,22 +113,58 @@ module Lacold
         commands = groups.map do |name, foreground, background, attributes, special|
           highlight(name, foreground, background, attributes, special)
         end.join("\n")
-        links = {
+        "#{commands}\n\nlet g:terminal_ansi_colors = #{theme.ansi.values.inspect}"
+      end
+
+      def highlight_links
+        {
           "QuickFixLine" => "Search", "StatusLineTerm" => "StatusLine",
           "StatusLineTermNC" => "StatusLineNC", "Terminal" => "Normal",
           "lCursor" => "Cursor", "CursorIM" => "Cursor",
-          "VertSplit" => "WinSeparator", "Character" => "String", "Number" => "Constant",
-          "Boolean" => "Constant", "Float" => "Constant", "Conditional" => "Statement",
+          "VertSplit" => "WinSeparator", "Character" => "String",
+          "Boolean" => "Constant", "Float" => "Number", "Conditional" => "Statement",
           "Repeat" => "Statement", "Label" => "Statement", "Keyword" => "Statement",
           "Exception" => "Statement", "Include" => "PreProc", "Define" => "PreProc",
           "Macro" => "PreProc", "PreCondit" => "PreProc", "StorageClass" => "Type",
           "Structure" => "Type", "Typedef" => "Type", "SpecialChar" => "Special",
-          "SpecialComment" => "Comment", "Debug" => "Special", "Tag" => "Special",
+          "SpecialComment" => "Comment", "Debug" => "Special",
           "Delimiter" => "Operator", "diffAdded" => "DiffAdd",
           "diffChanged" => "DiffChange", "diffRemoved" => "DiffDelete",
           "GitGutterAdd" => "DiffAdd", "GitGutterChange" => "DiffChange",
           "GitGutterDelete" => "DiffDelete"
         }.map { |from, to| "highlight! link #{from} #{to}" }.join("\n")
+      end
+
+      def adaptive_vim_theme(light, dark)
+        <<~VIM
+          " Generated by Lacold #{Lacold::VERSION}. Do not edit.
+          highlight clear
+          if exists('syntax_on')
+            syntax reset
+          endif
+          let g:colors_name = '#{light.family_id}'
+
+          function! s:Hi(name, guifg, guibg, attr, guisp, ctermfg, ctermbg) abort
+            execute 'highlight ' . a:name
+                  \\ . ' guifg=' . a:guifg . ' guibg=' . a:guibg
+                  \\ . ' gui=' . a:attr . ' guisp=' . a:guisp
+                  \\ . ' ctermfg=' . a:ctermfg . ' ctermbg=' . a:ctermbg
+                  \\ . ' cterm=' . a:attr . ' term=' . a:attr
+          endfunction
+
+          if &background ==# 'light'
+          #{indent_vim(highlight_commands(light), 2)}
+          else
+          #{indent_vim(highlight_commands(dark), 2)}
+          endif
+
+          #{highlight_links}
+
+          delfunction s:Hi
+        VIM
+      end
+
+      def vim_theme(theme)
 
         <<~VIM
           " Generated by Lacold #{Lacold::VERSION}. Do not edit.
@@ -138,14 +183,17 @@ module Lacold
                   \\ . ' cterm=' . a:attr . ' term=' . a:attr
           endfunction
 
-          #{commands}
+          #{highlight_commands(theme)}
 
-          #{links}
-
-          let g:terminal_ansi_colors = #{theme.ansi.values.inspect}
+          #{highlight_links}
 
           delfunction s:Hi
         VIM
+      end
+
+      def indent_vim(value, spaces)
+        prefix = " " * spaces
+        value.lines.map { |line| "#{prefix}#{line}" }.join.chomp
       end
 
       def highlight(name, foreground, background, attributes, special = "NONE")

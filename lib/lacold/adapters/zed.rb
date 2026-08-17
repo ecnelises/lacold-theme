@@ -23,12 +23,18 @@ module Lacold
         ansi = theme.ansi
         syntax = {
           "comment" => {"color" => theme.muted, "font_style" => "italic"},
-          "keyword" => {"color" => theme.primary},
-          "type" => {"color" => theme.accent_secondary},
-          "function" => {"color" => theme.fg, "font_weight" => 700},
-          "string" => {"color" => theme.fg}, "number" => {"color" => theme.accent_secondary},
-          "variable" => {"color" => theme.fg}, "operator" => {"color" => theme.secondary},
-          "punctuation" => {"color" => theme.secondary}, "link_uri" => {"color" => theme.primary}
+          "keyword" => {"color" => theme.syntax_color(:keyword, theme.primary)},
+          "type" => {"color" => theme.syntax_color(:type, theme.accent_secondary)},
+          "function" => {"color" => theme.syntax_color(:function, theme.fg), "font_weight" => 700},
+          "string" => {"color" => theme.syntax_color(:string, theme.fg)},
+          "number" => {"color" => theme.syntax_color(:number, theme.accent_secondary)},
+          "constant" => {"color" => theme.syntax_color(:constant, theme.fg)},
+          "variable" => {"color" => theme.syntax_color(:variable, theme.fg)},
+          "property" => {"color" => theme.syntax_color(:property, theme.fg)},
+          "operator" => {"color" => theme.syntax_color(:operator, theme.secondary)},
+          "punctuation" => {"color" => theme.syntax_color(:punctuation, theme.secondary)},
+          "attribute" => {"color" => theme.syntax_color(:attribute, theme.accent_secondary)},
+          "link_uri" => {"color" => theme.syntax_color(:link, theme.primary)}
         }
         style = {
           "border" => theme.border, "border.variant" => theme.line,

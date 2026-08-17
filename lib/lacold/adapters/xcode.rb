@@ -38,8 +38,17 @@ module Lacold
         syntax = SYNTAX_KEYS.map do |key|
           value = case key
                   when /comment/ then theme.muted
-                  when /keyword|declaration|attribute|url/ then theme.primary
-                  when /type|class|number|aside/ then theme.accent_secondary
+                  when /attribute/ then theme.syntax_color(:attribute, theme.primary)
+                  when /macro/ then theme.syntax_color(:macro, theme.accent_secondary)
+                  when /preprocessor/ then theme.syntax_color(:preprocessor, theme.accent_secondary)
+                  when /type|class/ then theme.syntax_color(:type, theme.accent_secondary)
+                  when /function/ then theme.syntax_color(:function, theme.fg)
+                  when /string|character/ then theme.syntax_color(:string, theme.fg)
+                  when /constant/ then theme.syntax_color(:constant, theme.fg)
+                  when /number/ then theme.syntax_color(:number, theme.accent_secondary)
+                  when /keyword|declaration/ then theme.syntax_color(:keyword, theme.primary)
+                  when /url/ then theme.syntax_color(:link, theme.primary)
+                  when /aside/ then theme.syntax_color(:type, theme.accent_secondary)
                   when /mark/ then theme.secondary
                   else theme.fg
                   end

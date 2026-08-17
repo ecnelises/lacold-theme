@@ -27,28 +27,28 @@ module Lacold
 
       def coteditor_theme(theme)
         {
-          "attributes" => color(theme.accent_secondary),
+          "attributes" => color(theme.syntax_color(:attribute, theme.accent_secondary)),
           "background" => color(theme.bg),
           "characters" => color(theme.fg),
-          "commands" => color(theme.primary),
+          "commands" => color(theme.syntax_color(:function, theme.primary)),
           "comments" => color(theme.muted),
           "highlight" => color(theme.wash, system: false),
           "insertionPoint" => color(theme.primary, system: false),
           "invisibles" => color(theme.whitespace),
-          "keywords" => color(theme.primary),
+          "keywords" => color(theme.syntax_color(:keyword, theme.primary)),
           "lineHighlight" => color(theme.line),
           "metadata" => {
             "author" => "Lacold contributors",
-            "description" => "#{theme.name}; neutral foundation with one authored hue.",
+            "description" => "#{theme.name}; neutral foundation with restrained authored accents.",
             "license" => "MIT"
           },
-          "numbers" => color(theme.accent_secondary),
+          "numbers" => color(theme.syntax_color(:number, theme.accent_secondary)),
           "selection" => color(theme.selection, system: false),
-          "strings" => color(theme.fg),
+          "strings" => color(theme.syntax_color(:string, theme.fg)),
           "text" => color(theme.fg),
-          "types" => color(theme.accent_secondary),
+          "types" => color(theme.syntax_color(:type, theme.accent_secondary)),
           "values" => color(theme.fg),
-          "variables" => color(theme.primary)
+          "variables" => color(theme.syntax_color(:variable, theme.primary))
         }
       end
     end

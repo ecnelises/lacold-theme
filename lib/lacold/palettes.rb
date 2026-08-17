@@ -98,6 +98,70 @@ module Lacold
           strong: "#E7A16D", primary: "#D78A50", secondary: "#C99570", faint: "#8B6045",
           wash: "#493429", selection: "#563B2C", inactive_selection: "#352F2B", bracket: "#49372D"
         }
+      },
+      # Rainbow keeps the interface on a quiet blue-cyan axis. Its spectrum is
+      # applied separately to sparse syntax roles below, never to backgrounds
+      # or general UI chrome.
+      "rainbow" => {
+        light: {
+          strong: "#2E679B", primary: "#356F9F", secondary: "#4D7D86", faint: "#85ADB5",
+          wash: "#DDEBED", selection: "#D8E8EC", inactive_selection: "#E7ECEC", bracket: "#DCE8EA"
+        },
+        dark: {
+          strong: "#89B7BE", primary: "#75A7AF", secondary: "#82B5DE", faint: "#52737A",
+          wash: "#2B4044", selection: "#344A4F", inactive_selection: "#2D3436", bracket: "#304247"
+        }
+      }
+    }.freeze
+
+    RAINBOW_SPECTRUM_LIGHT = {
+      red: "#A64050", orange: "#9A4D16", yellow: "#7E6000",
+      green: "#2F7653", cyan: "#3F747D", blue: "#3874AC",
+      violet: "#6F55A3", ink: "#46484A", gray: "#65686B"
+    }.freeze
+
+    RAINBOW_SPECTRUM_DARK = {
+      red: "#D97A86", orange: "#D78A50", yellow: "#CCA643",
+      green: "#75AC8D", cyan: "#75A7AF", blue: "#6899C2",
+      violet: "#A18BCF", ink: "#CACBCC", gray: "#9B9D9F"
+    }.freeze
+
+    SPECTRUM = {
+      "rainbow" => {light: RAINBOW_SPECTRUM_LIGHT, dark: RAINBOW_SPECTRUM_DARK}
+    }.freeze
+
+    # Seven chromatic lanes plus ink and gray. Variables, operators and
+    # punctuation use the neutral lanes to keep a stable reading rhythm.
+    SYNTAX = {
+      "rainbow" => {
+        light: {
+          keyword: RAINBOW_SPECTRUM_LIGHT[:violet],
+          type: RAINBOW_SPECTRUM_LIGHT[:blue], builtin: RAINBOW_SPECTRUM_LIGHT[:blue],
+          function: RAINBOW_SPECTRUM_LIGHT[:cyan],
+          string: RAINBOW_SPECTRUM_LIGHT[:green], regexp: RAINBOW_SPECTRUM_LIGHT[:green],
+          constant: RAINBOW_SPECTRUM_LIGHT[:yellow],
+          label: RAINBOW_SPECTRUM_LIGHT[:yellow], symbol: RAINBOW_SPECTRUM_LIGHT[:yellow],
+          number: RAINBOW_SPECTRUM_LIGHT[:orange], tag: RAINBOW_SPECTRUM_LIGHT[:orange],
+          attribute: RAINBOW_SPECTRUM_LIGHT[:red], decorator: RAINBOW_SPECTRUM_LIGHT[:red],
+          macro: RAINBOW_SPECTRUM_LIGHT[:red], preprocessor: RAINBOW_SPECTRUM_LIGHT[:red],
+          property: RAINBOW_SPECTRUM_LIGHT[:red], escape: RAINBOW_SPECTRUM_LIGHT[:red],
+          variable: RAINBOW_SPECTRUM_LIGHT[:ink],
+          operator: RAINBOW_SPECTRUM_LIGHT[:gray], punctuation: RAINBOW_SPECTRUM_LIGHT[:gray]
+        },
+        dark: {
+          keyword: RAINBOW_SPECTRUM_DARK[:violet],
+          type: RAINBOW_SPECTRUM_DARK[:blue], builtin: RAINBOW_SPECTRUM_DARK[:blue],
+          function: RAINBOW_SPECTRUM_DARK[:cyan],
+          string: RAINBOW_SPECTRUM_DARK[:green], regexp: RAINBOW_SPECTRUM_DARK[:green],
+          constant: RAINBOW_SPECTRUM_DARK[:yellow],
+          label: RAINBOW_SPECTRUM_DARK[:yellow], symbol: RAINBOW_SPECTRUM_DARK[:yellow],
+          number: RAINBOW_SPECTRUM_DARK[:orange], tag: RAINBOW_SPECTRUM_DARK[:orange],
+          attribute: RAINBOW_SPECTRUM_DARK[:red], decorator: RAINBOW_SPECTRUM_DARK[:red],
+          macro: RAINBOW_SPECTRUM_DARK[:red], preprocessor: RAINBOW_SPECTRUM_DARK[:red],
+          property: RAINBOW_SPECTRUM_DARK[:red], escape: RAINBOW_SPECTRUM_DARK[:red],
+          variable: RAINBOW_SPECTRUM_DARK[:ink],
+          operator: RAINBOW_SPECTRUM_DARK[:gray], punctuation: RAINBOW_SPECTRUM_DARK[:gray]
+        }
       }
     }.freeze
 
@@ -117,7 +181,9 @@ module Lacold
           background: BACKGROUND, color: color, mode: mode,
           neutrals: AIR.fetch(mode),
           accent: ACCENTS.fetch(color).fetch(mode),
-          semantics: SEMANTICS.fetch(mode)
+          semantics: SEMANTICS.fetch(mode),
+          spectrum: SPECTRUM.fetch(color, {}).fetch(mode, {}),
+          syntax: SYNTAX.fetch(color, {}).fetch(mode, {})
         )
       end
     end

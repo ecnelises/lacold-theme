@@ -27,34 +27,56 @@ module Lacold
       def description = "Importable .itermcolors profiles"
 
       def render(themes)
-        files = themes.map do |theme|
-          output("iterm2/#{theme.id}.itermcolors", profile(theme))
+        files = theme_families(themes).flat_map do |variants|
+          if complete_mode_pair?(variants)
+            by_mode = variants.to_h { |theme| [theme.mode, theme] }
+            family = variants.first
+            [output("iterm2/#{family.family_id}.itermcolors", adaptive_profile(by_mode.fetch(:light), by_mode.fetch(:dark)))]
+          else
+            variants.map { |theme| output("iterm2/#{theme.id}.itermcolors", profile(theme)) }
+          end
         end
         files << output("iterm2/README.md", <<~MARKDOWN)
           # Lacold for iTerm2
 
           Open **Settings → Profiles → Colors → Color Presets → Import**, choose
           the desired `.itermcolors` file, then select it from Color Presets.
+          Complete families contain separate Light and Dark colors in one preset.
         MARKDOWN
       end
 
       private
 
       def profile(theme)
-        colors = KEYS.map do |key, ansi_name|
-          "  <key>#{key}</key>\n#{indent(plist_color_components(theme.ansi.fetch(ansi_name)), 2)}"
-        end
-        colors.concat([
-          "  <key>Background Color</key>\n#{indent(plist_color_components(theme.bg), 2)}",
-          "  <key>Foreground Color</key>\n#{indent(plist_color_components(theme.fg), 2)}",
-          "  <key>Bold Color</key>\n#{indent(plist_color_components(theme.fg), 2)}",
-          "  <key>Cursor Color</key>\n#{indent(plist_color_components(theme.primary), 2)}",
-          "  <key>Cursor Text Color</key>\n#{indent(plist_color_components(theme.bg), 2)}",
-          "  <key>Selection Color</key>\n#{indent(plist_color_components(theme.selection), 2)}",
-          "  <key>Selected Text Color</key>\n#{indent(plist_color_components(theme.fg), 2)}",
-          "  <key>Link Color</key>\n#{indent(plist_color_components(theme.primary), 2)}"
-        ])
+        plist_document("<dict>\n#{color_entries(theme).join("\n")}\n</dict>")
+      end
+
+      def adaptive_profile(light, dark)
+        colors = color_entries(light)
+        colors.concat(color_entries(dark, suffix: " (Dark)"))
+        colors.concat(color_entries(light, suffix: " (Light)"))
+        colors << "  <key>Use Separate Colors for Light and Dark Mode</key>\n  <true/>"
         plist_document("<dict>\n#{colors.join("\n")}\n</dict>")
+      end
+
+      def color_entries(theme, suffix: "")
+        entries = KEYS.map do |key, ansi_name|
+          color_entry("#{key}#{suffix}", theme.ansi.fetch(ansi_name))
+        end
+        entries.concat([
+          color_entry("Background Color#{suffix}", theme.bg),
+          color_entry("Foreground Color#{suffix}", theme.fg),
+          color_entry("Bold Color#{suffix}", theme.fg),
+          color_entry("Cursor Color#{suffix}", theme.primary),
+          color_entry("Cursor Text Color#{suffix}", theme.bg),
+          color_entry("Selection Color#{suffix}", theme.selection),
+          color_entry("Selected Text Color#{suffix}", theme.fg),
+          color_entry("Link Color#{suffix}", theme.primary)
+        ])
+      end
+
+      def color_entry(key, value)
+        "  <key>#{key}</key>\n#{indent(plist_color_components(value), 2)}"
       end
 
       def indent(value, spaces)
@@ -63,4 +85,3 @@ module Lacold
     end
   end
 end
-

@@ -17,6 +17,22 @@ function applyTheme() {
     const property = ["strong", "secondary", "faint", "wash"].includes(role) ? `--accent-${role}` : `--${role === "primary" ? "accent" : role.replaceAll("_", "-")}`;
     root.style.setProperty(property, value);
   });
+  const syntaxDefaults = {
+    keyword: theme.accent.primary,
+    type: theme.accent.secondary,
+    function: theme.neutrals.fg,
+    variable: theme.neutrals.fg,
+    string: theme.neutrals.fg,
+    constant: theme.neutrals.fg,
+    number: theme.neutrals.fg,
+    symbol: theme.neutrals.fg,
+    attribute: theme.accent.primary,
+    operator: theme.neutrals.secondary,
+    punctuation: theme.neutrals.secondary
+  };
+  Object.entries(syntaxDefaults).forEach(([role, fallback]) => {
+    root.style.setProperty(`--syntax-${role}`, theme.syntax[role] || fallback);
+  });
   root.style.colorScheme = state.mode;
   document.querySelector('meta[name="theme-color"]').content = theme.neutrals.bg;
 
@@ -41,6 +57,10 @@ function renderColorOptions() {
     button.setAttribute("aria-label", capitalize(color));
     button.setAttribute("aria-pressed", String(color === state.color));
     button.style.setProperty("--swatch", reference.accent.primary);
+    const spectrum = ["red", "orange", "yellow", "green", "cyan", "blue", "violet"]
+      .map((role) => reference.spectrum[role])
+      .filter(Boolean);
+    if (spectrum.length > 1) button.style.setProperty("--swatch-fill", `conic-gradient(${spectrum.join(", ")})`);
     button.addEventListener("click", () => { state.color = color; applyTheme(); });
     return button;
   }));
@@ -53,7 +73,16 @@ function readableText(hex) {
 }
 
 function renderPalette(theme) {
-  const roles = { ...theme.neutrals, ...Object.fromEntries(Object.entries(theme.accent).map(([key, value]) => [`accent ${key}`, value])) };
+  const landmarkRoles = new Set(["keyword", "type", "function", "string", "constant", "number", "attribute"]);
+  const landmarks = Object.entries(theme.syntax).filter(([role]) => landmarkRoles.has(role));
+  const authoredColors = Object.keys(theme.spectrum).length > 0
+    ? Object.entries(theme.spectrum).map(([key, value]) => [`spectrum ${key}`, value])
+    : landmarks.map(([key, value]) => [`syntax ${key}`, value]);
+  const roles = {
+    ...theme.neutrals,
+    ...Object.fromEntries(Object.entries(theme.accent).map(([key, value]) => [`accent ${key}`, value])),
+    ...Object.fromEntries(authoredColors)
+  };
   byId("palette-grid").replaceChildren(...Object.entries(roles).map(([role, value]) => {
     const card = document.createElement("article");
     card.className = "swatch-card";
@@ -91,6 +120,8 @@ async function start() {
   if (!response.ok) throw new Error(`Could not load themes.json (${response.status})`);
   state.data = await response.json();
   state.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  if (!state.data.themes.some((theme) => theme.color === state.color)) state.color = state.data.themes[0]?.color;
+  if (!state.data.themes.some((theme) => theme.mode === state.mode)) state.mode = state.data.themes[0]?.mode;
   byId("repository-link").href = state.data.repository;
   byId("download-link").href = state.data.release;
   renderColorOptions();

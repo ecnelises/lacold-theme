@@ -2,15 +2,17 @@
 
 module Lacold
   class Theme
-    attr_reader :background, :color, :mode, :neutrals, :accent, :semantics
+    attr_reader :background, :color, :mode, :neutrals, :accent, :semantics, :spectrum, :syntax
 
-    def initialize(background:, color:, mode:, neutrals:, accent:, semantics:)
+    def initialize(background:, color:, mode:, neutrals:, accent:, semantics:, spectrum: {}, syntax: {})
       @background = background
       @color = color
       @mode = mode
       @neutrals = neutrals.freeze
       @accent = accent.freeze
       @semantics = semantics.freeze
+      @spectrum = spectrum.freeze
+      @syntax = syntax.freeze
       freeze
     end
 
@@ -34,8 +36,16 @@ module Lacold
       "lacold-#{background}-#{color}-#{mode}"
     end
 
+    def family_id
+      "lacold-#{background}-#{color}"
+    end
+
     def name
       "Lacold #{background.capitalize} #{color.capitalize} #{mode.to_s.capitalize}"
+    end
+
+    def family_name
+      "Lacold #{background.capitalize} #{color.capitalize}"
     end
 
     def accent_secondary
@@ -48,6 +58,10 @@ module Lacold
 
     def caret
       primary
+    end
+
+    def syntax_color(role, fallback)
+      syntax.fetch(role, fallback)
     end
 
     def ansi
@@ -75,6 +89,8 @@ module Lacold
       neutrals
         .merge(accent.transform_keys { |key| :"accent_#{key}" })
         .merge(semantics.transform_keys { |key| :"semantic_#{key}" })
+        .merge(spectrum.transform_keys { |key| :"spectrum_#{key}" })
+        .merge(syntax.transform_keys { |key| :"syntax_#{key}" })
     end
 
     def to_h
@@ -83,24 +99,31 @@ module Lacold
         "color" => color, "mode" => mode.to_s,
         "neutrals" => neutrals.transform_keys(&:to_s),
         "accent" => accent.transform_keys(&:to_s),
-        "semantics" => semantics.transform_keys(&:to_s)
+        "semantics" => semantics.transform_keys(&:to_s),
+        "spectrum" => spectrum.transform_keys(&:to_s),
+        "syntax" => syntax.transform_keys(&:to_s)
       }
     end
 
     def textmate_settings
       [
         ["Comments", %w[comment punctuation.definition.comment], muted, "italic"],
-        ["Keywords and storage", %w[keyword storage.type storage.modifier keyword.control keyword.operator.expression], primary, nil],
-        ["Types, classes, namespaces and language support", %w[entity.name.type entity.name.class entity.name.namespace support.type support.class support.constant support.function variable.language], accent_secondary, nil],
-        ["Functions and methods stay ink", %w[entity.name.function meta.function-call support.function.any-method], fg, nil],
-        ["Variables, properties and parameters stay ink", %w[variable variable.parameter variable.other.property meta.object-literal.key support.variable.property], fg, nil],
-        ["Strings, numbers and constants stay ink", %w[string constant.numeric constant.language constant.character constant.other], fg, nil],
-        ["Tags and attributes", %w[entity.name.tag entity.other.attribute-name], primary, nil],
-        ["Punctuation and operators", %w[punctuation keyword.operator meta.brace meta.delimiter], self.secondary, nil],
+        ["Keywords and storage", %w[keyword storage.type storage.modifier keyword.control keyword.operator.expression], syntax_color(:keyword, primary), nil],
+        ["Types, classes and namespaces", %w[entity.name.type entity.name.class entity.name.namespace support.type support.class variable.language], syntax_color(:type, accent_secondary), nil],
+        ["Language support and macros", %w[support.constant support.function entity.name.function.preprocessor entity.name.function.macro], syntax_color(:macro, accent_secondary), nil],
+        ["Functions and methods", %w[entity.name.function meta.function-call support.function.any-method], syntax_color(:function, fg), nil],
+        ["Variables and parameters", %w[variable variable.parameter variable.other.property meta.object-literal.key support.variable.property], syntax_color(:variable, fg), nil],
+        ["Properties and object keys", %w[variable.other.property meta.object-literal.key support.variable.property], syntax_color(:property, fg), nil],
+        ["Strings stay ink", %w[string], syntax_color(:string, fg), nil],
+        ["Numbers", %w[constant.numeric], syntax_color(:number, fg), nil],
+        ["Constants and symbols", %w[constant.language constant.character constant.other], syntax_color(:constant, fg), nil],
+        ["Tags", %w[entity.name.tag], syntax_color(:tag, primary), nil],
+        ["Attributes and decorators", %w[entity.other.attribute-name meta.decorator entity.name.function.decorator punctuation.decorator], syntax_color(:attribute, primary), nil],
+        ["Punctuation and operators", %w[punctuation keyword.operator meta.brace meta.delimiter], syntax_color(:operator, self.secondary), nil],
         ["Markdown headings", %w[markup.heading entity.name.section], selection_fg, "bold"],
         ["Markdown emphasis", %w[markup.bold], selection_fg, "bold"],
         ["Markdown italic", %w[markup.italic], fg, "italic"],
-        ["Links", %w[markup.underline.link string.other.link meta.link], primary, "underline"],
+        ["Links", %w[markup.underline.link string.other.link meta.link], syntax_color(:link, primary), "underline"],
         ["Invalid and deprecated", %w[invalid invalid.illegal], red, "underline"],
         ["Diff added", %w[markup.inserted], green, nil],
         ["Diff changed", %w[markup.changed], primary, nil],

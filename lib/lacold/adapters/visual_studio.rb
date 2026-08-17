@@ -17,7 +17,7 @@ module Lacold
           # Lacold for Visual Studio
 
           Install Microsoft's Color Theme Designer extension, then import the
-          selected `.vstheme` file. These themes use the same single-hue state
+          selected `.vstheme` file. These themes use the same restrained role
           mapping as every other Lacold carrier.
         MARKDOWN
       end
@@ -45,14 +45,14 @@ module Lacold
           vs_color("Visible Whitespace", foreground: theme.whitespace, transparent_background: true)
         ].join("\n")
         language_colors = [
-          vs_color("Keyword", foreground: theme.primary, transparent_background: true),
+          vs_color("Keyword", foreground: theme.syntax_color(:keyword, theme.primary), transparent_background: true),
           vs_color("Comment", foreground: theme.muted, transparent_background: true),
-          vs_color("String", foreground: theme.fg, transparent_background: true),
-          vs_color("Number", foreground: theme.accent_secondary, transparent_background: true),
-          vs_color("User Types", foreground: theme.accent_secondary, transparent_background: true),
+          vs_color("String", foreground: theme.syntax_color(:string, theme.fg), transparent_background: true),
+          vs_color("Number", foreground: theme.syntax_color(:number, theme.accent_secondary), transparent_background: true),
+          vs_color("User Types", foreground: theme.syntax_color(:type, theme.accent_secondary), transparent_background: true),
           vs_color("Identifier", foreground: theme.fg, transparent_background: true),
-          vs_color("Preprocessor Keyword", foreground: theme.primary, transparent_background: true),
-          vs_color("Operator", foreground: theme.secondary, transparent_background: true),
+          vs_color("Preprocessor Keyword", foreground: theme.syntax_color(:preprocessor, theme.primary), transparent_background: true),
+          vs_color("Operator", foreground: theme.syntax_color(:operator, theme.secondary), transparent_background: true),
           vs_color("Line Number", foreground: theme.line_nr, transparent_background: true),
           vs_color("URL Hyperlink", foreground: theme.primary, transparent_background: true)
         ].join("\n")

@@ -8,20 +8,28 @@ module Lacold
       def description = "OpenCode custom theme JSON files"
 
       def render(themes)
-        files = themes.map { |theme| output("opencode/#{theme.id}.json", json(opencode_theme(theme))) }
+        files = theme_families(themes).flat_map do |variants|
+          if complete_mode_pair?(variants)
+            by_mode = variants.to_h { |theme| [theme.mode, theme] }
+            family = variants.first
+            [output("opencode/#{family.family_id}.json", json(adaptive_theme(by_mode.fetch(:light), by_mode.fetch(:dark))))]
+          else
+            variants.map { |theme| output("opencode/#{theme.id}.json", json(single_mode_theme(theme))) }
+          end
+        end
         files << output("opencode/README.md", <<~MARKDOWN)
           # Lacold for OpenCode
 
           Copy a JSON file to `~/.config/opencode/themes/`, then set its basename
-          as `theme` in `~/.config/opencode/tui.json`.
+          as `theme` in your OpenCode configuration. Complete theme families
+          include authored Light and Dark values in one adaptive JSON file.
         MARKDOWN
       end
 
       private
 
-      def opencode_theme(theme)
-        pair = ->(color) { {"dark" => color, "light" => color} }
-        colors = {
+      def colors(theme)
+        {
           "primary" => theme.primary, "secondary" => theme.accent_secondary,
           "accent" => theme.strong, "error" => theme.red,
           "warning" => theme.orange, "success" => theme.green,
@@ -45,15 +53,38 @@ module Lacold
           "markdownListEnumeration" => theme.accent_secondary,
           "markdownImage" => theme.primary, "markdownImageText" => theme.secondary,
           "markdownCodeBlock" => theme.fg, "syntaxComment" => theme.muted,
-          "syntaxKeyword" => theme.primary, "syntaxFunction" => theme.fg,
-          "syntaxVariable" => theme.fg, "syntaxString" => theme.fg,
-          "syntaxNumber" => theme.accent_secondary, "syntaxType" => theme.accent_secondary,
-          "syntaxOperator" => theme.secondary, "syntaxPunctuation" => theme.secondary
+          "syntaxKeyword" => theme.syntax_color(:keyword, theme.primary),
+          "syntaxFunction" => theme.syntax_color(:function, theme.fg),
+          "syntaxVariable" => theme.syntax_color(:variable, theme.fg),
+          "syntaxString" => theme.syntax_color(:string, theme.fg),
+          "syntaxNumber" => theme.syntax_color(:number, theme.accent_secondary),
+          "syntaxType" => theme.syntax_color(:type, theme.accent_secondary),
+          "syntaxOperator" => theme.syntax_color(:operator, theme.secondary),
+          "syntaxPunctuation" => theme.syntax_color(:punctuation, theme.secondary)
         }
+      end
+
+      def single_mode_theme(theme)
+        definitions = colors(theme)
+        pair = ->(color) { {"dark" => color, "light" => color} }
         {
           "$schema" => "https://opencode.ai/theme.json",
-          "defs" => colors,
-          "theme" => colors.keys.to_h { |name| [name, pair.call(name)] }
+          "defs" => definitions,
+          "theme" => definitions.keys.to_h { |name| [name, pair.call(name)] }
+        }
+      end
+
+      def adaptive_theme(light, dark)
+        by_mode = {"dark" => colors(dark), "light" => colors(light)}
+        definitions = by_mode.flat_map do |mode, values|
+          values.map { |name, value| ["#{mode}_#{name}", value] }
+        end.to_h
+        {
+          "$schema" => "https://opencode.ai/theme.json",
+          "defs" => definitions,
+          "theme" => by_mode.fetch("dark").keys.to_h do |name|
+            [name, {"dark" => "dark_#{name}", "light" => "light_#{name}"}]
+          end
         }
       end
     end
