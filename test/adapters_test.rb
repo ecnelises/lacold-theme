@@ -25,6 +25,22 @@ class AdaptersTest < Minitest::Test
     end
   end
 
+  def test_every_adapter_includes_a_usage_readme
+    root_readme = File.read(File.expand_path("../README.md", __dir__))
+
+    Lacold::Adapters.all.each do |adapter|
+      readme = adapter.render(Lacold.themes).find do |item|
+        item.path == "#{adapter.id}/README.md"
+      end
+      source = File.read(File.expand_path("../targets/#{adapter.id}/README.md", __dir__))
+
+      assert readme, "#{adapter.id} omitted README.md"
+      assert_match(/^# Lacold /, readme.content, adapter.id)
+      assert_equal source, readme.content, "#{adapter.id} README differs from its source"
+      assert_includes root_readme, "(targets/#{adapter.id}/README.md)", adapter.id
+    end
+  end
+
   def test_vscode_extension_declares_all_themes
     outputs = Lacold::Adapters.find("vscode").render(Lacold.themes)
     package = JSON.parse(outputs.find { |item| item.path == "vscode/package.json" }.content)
@@ -32,16 +48,16 @@ class AdaptersTest < Minitest::Test
     assert_equal 12, package.dig("contributes", "themes").size
     assert_equal %w[vs vs-dark], package.dig("contributes", "themes").map { |item| item.fetch("uiTheme") }.uniq.sort
     assert_equal "ecnelises", package.fetch("publisher")
-    assert_equal "images/lacold-icon.png", package.fetch("icon")
+    assert_equal "images/lacold-wordmark-logo.png", package.fetch("icon")
     assert_equal "SEE LICENSE IN LICENSE.txt", package.fetch("license")
     assert_equal "https://github.com/ecnelises/lacold-theme.git", package.dig("repository", "url")
     assert_equal "https://github.com/ecnelises/lacold-theme/issues", package.dig("bugs", "url")
     assert_equal ["themes/**", "images/**", "README.md", "CHANGELOG.md", "LICENSE.txt"], package.fetch("files")
     assert outputs.any? { |item| item.path == "vscode/CHANGELOG.md" }
 
-    icon = outputs.find { |item| item.path == "vscode/images/lacold-icon.png" }
+    icon = outputs.find { |item| item.path == "vscode/images/lacold-wordmark-logo.png" }
     assert icon
-    assert_equal File.binread(File.expand_path("../assets/lacold-icon.png", __dir__)), icon.content
+    assert_equal File.binread(File.expand_path("../assets/lacold-wordmark-logo.png", __dir__)), icon.content
   end
 
   def test_vscode_preserves_editor_ui_and_semantic_feedback

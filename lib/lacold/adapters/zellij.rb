@@ -9,12 +9,7 @@ module Lacold
 
       def render(themes)
         files = themes.map { |theme| output("zellij/#{theme.id}.kdl", zellij_theme(theme)) }
-        files << output("zellij/README.md", <<~MARKDOWN)
-          # Lacold for Zellij
-
-          Place the selected file in `~/.config/zellij/themes/` and set
-          `theme "lacold-air-blue-dark"` in `config.kdl`.
-        MARKDOWN
+        files << target_readme
       end
 
       private

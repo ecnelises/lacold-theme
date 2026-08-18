@@ -12,13 +12,7 @@ module Lacold
         files = themes.map do |theme|
           output("fzf/#{theme.id}.sh", shell_theme(theme))
         end
-        files << output("fzf/README.md", <<~MARKDOWN)
-          # Lacold for fzf
-
-          Source one generated file from your shell configuration. The snippet
-          appends only `--color` to `FZF_DEFAULT_OPTS` and preserves existing
-          options.
-        MARKDOWN
+        files << target_readme
       end
 
       private
@@ -49,4 +43,3 @@ module Lacold
     end
   end
 end
-

@@ -9,17 +9,7 @@ module Lacold
 
       def render(themes)
         files = themes.map { |theme| output("gnome-terminal/#{theme.id}.dconf", dconf(theme)) }
-        files << output("gnome-terminal/README.md", <<~MARKDOWN)
-          # Lacold for GNOME Terminal
-
-          Create a new GNOME Terminal profile, find its profile UUID, then run:
-
-          ```sh
-          dconf load /org/gnome/terminal/legacy/profiles:/:PROFILE_UUID/ < lacold-air-blue-dark.dconf
-          ```
-
-          The file changes only the profile at the path you explicitly choose.
-        MARKDOWN
+        files << target_readme
       end
 
       private

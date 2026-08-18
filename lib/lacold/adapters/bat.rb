@@ -13,15 +13,8 @@ module Lacold
         files = themes.map do |theme|
           output("bat/#{theme.id}.tmTheme", textmate(theme))
         end
-        files << output("bat/README.md", <<~MARKDOWN)
-          # Lacold for bat
-
-          Copy a `.tmTheme` file to `$(bat --config-dir)/themes/`, run
-          `bat cache --build`, then set `--theme=#{themes.first.id}` or choose
-          another generated variant.
-        MARKDOWN
+        files << target_readme
       end
     end
   end
 end
-

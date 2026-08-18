@@ -9,12 +9,7 @@ module Lacold
 
       def render(themes)
         files = themes.map { |theme| output("zed/#{theme.id}.json", json(zed_theme(theme))) }
-        files << output("zed/README.md", <<~MARKDOWN)
-          # Lacold for Zed
-
-          Copy the selected JSON file to `~/.config/zed/themes/`, then choose
-          the matching theme name from Zed's theme selector.
-        MARKDOWN
+        files << target_readme
       end
 
       private

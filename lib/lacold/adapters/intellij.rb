@@ -9,12 +9,7 @@ module Lacold
 
       def render(themes)
         files = themes.map { |theme| output("intellij/#{theme.id}.icls", intellij_theme(theme)) }
-        files << output("intellij/README.md", <<~MARKDOWN)
-          # Lacold for IntelliJ Platform
-
-          In a JetBrains IDE, open Settings → Editor → Color Scheme, use the
-          gear menu to import a scheme, and choose the `.icls` file.
-        MARKDOWN
+        files << target_readme
       end
 
       private

@@ -1,97 +1,116 @@
 # Lacold
 
-Lacold is a restrained, generated theme family for editors, terminals, and
-developer tools. Its visual grammar absorbs the former local iA editor themes:
-neutral colors carry text and interface hierarchy, authored chromatic roles
-carry structure, and a small fixed semantic palette is reserved for feedback.
+Lacold is an ink-first theme family for editors, terminals, and developer tools.
+Neutral colors carry most text and interface hierarchy, restrained accents add
+structure, and a fixed semantic palette keeps feedback clear.
 
-The first collection is **Air**. It has five hand-authored monochrome families
-— Blue, Green, Orange, Pink, and Purple — plus the restrained multi-hue Rainbow.
-Each has independent Light and Dark palettes, producing twelve official variants:
+The first collection, **Air**, includes Blue, Green, Orange, Pink, Purple, and
+Rainbow in independent Light and Dark palettes: twelve variants in total.
 
-```text
-Lacold Air Blue Light       Lacold Air Blue Dark
-Lacold Air Green Light      Lacold Air Green Dark
-Lacold Air Orange Light     Lacold Air Orange Dark
-Lacold Air Pink Light       Lacold Air Pink Dark
-Lacold Air Purple Light     Lacold Air Purple Dark
-Lacold Air Rainbow Light    Lacold Air Rainbow Dark
-```
+## Preview
 
-## Design contract
+<p align="center">
+<picture>
+    <source media="(prefers-color-scheme: dark)"
+            srcset="assets/screenshots/dark-air-rainbow.png">
+    <source media="(prefers-color-scheme: light)"
+            srcset="assets/screenshots/light-air-rainbow.png">
+    <img src="assets/screenshots/light-air-rainbow.png"
+        alt="Lacold Air Rainbow"
+        width="100%">
+</picture>
+</p>
 
-Lacold is ink-first, not monochrome. Normal syntax and interface hierarchy stay
-neutral; keywords, navigation, and selection use authored accents. Diagnostics,
-diffs, search, terminal ANSI colors, and shell state continue to use fixed
-semantic roles independent of the structural palette.
+<p align="center">
+<em>Air Rainbow — the preview follows your GitHub appearance.</em>
+</p>
 
-Rainbow keeps the interface, cursor, and selection on a calm blue-cyan axis. Its
-syntax palette has seven chromatic lanes: red attributes and properties, orange
-numbers and tags, yellow constants and symbols, green strings and regular
-expressions, cyan functions, blue types, and violet keywords. Two neutral lanes
-complete the palette: mode-aware ink for variables and gray for operators and
-punctuation. This makes Rainbow visibly colorful without assigning a different
-hue to every token.
+<details>
+<summary><strong>View all variants</strong></summary>
 
-Air's neutral structure is based on that iA palette. Each accent
-defines `strong`, `primary`, `secondary`, `faint`, `wash`, `selection`,
-`inactive_selection`, and `bracket` values separately for Light and Dark. A
-separate Light/Dark semantic palette supplies status, wash, and terminal roles;
-the cursor follows each variant's authored primary accent. Rainbow additionally
-defines an explicit seven-hue spectrum plus ink and gray. No color-generation
-algorithm changes authored palette values.
+<br>
 
-## Generate themes
+<table>
+<thead>
+    <tr>
+    <th>Accent</th>
+    <th>Light</th>
+    <th>Dark</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+    <th>Blue</th>
+    <td><img src="assets/screenshots/light-air-blue.png" alt="Air Blue Light"></td>
+    <td><img src="assets/screenshots/dark-air-blue.png" alt="Air Blue Dark"></td>
+    </tr>
+    <tr>
+    <th>Green</th>
+    <td><img src="assets/screenshots/light-air-green.png" alt="Air Green Light"></td>
+    <td><img src="assets/screenshots/dark-air-green.png" alt="Air Green Dark"></td>
+    </tr>
+    <tr>
+    <th>Orange</th>
+    <td><img src="assets/screenshots/light-air-orange.png" alt="Air Orange Light"></td>
+    <td><img src="assets/screenshots/dark-air-orange.png" alt="Air Orange Dark"></td>
+    </tr>
+    <tr>
+    <th>Pink</th>
+    <td><img src="assets/screenshots/light-air-pink.png" alt="Air Pink Light"></td>
+    <td><img src="assets/screenshots/dark-air-pink.png" alt="Air Pink Dark"></td>
+    </tr>
+    <tr>
+    <th>Purple</th>
+    <td><img src="assets/screenshots/light-air-purple.png" alt="Air Purple Light"></td>
+    <td><img src="assets/screenshots/dark-air-purple.png" alt="Air Purple Dark"></td>
+    </tr>
+    <tr>
+    <th>Rainbow</th>
+    <td><img src="assets/screenshots/light-air-rainbow.png" alt="Air Rainbow Light"></td>
+    <td><img src="assets/screenshots/dark-air-rainbow.png" alt="Air Rainbow Dark"></td>
+    </tr>
+</tbody>
+</table>
 
-Lacold uses Ruby 3.2 or newer and has no runtime gem dependencies.
+</details>
 
-```sh
-bin/lacold list
-bin/lacold build
-bin/lacold build --target vim,kitty --color pink --mode dark
-bin/lacold check
-bin/lacold site
-```
+## Usage
 
-The default build writes to `dist/`. Generated files are release artifacts and
-are not committed to the repository. Use `--output` to select another directory.
+Editors: [VS Code](targets/vscode/README.md) ·
+[Visual Studio](targets/visual-studio/README.md) ·
+[Vim/NeoVim](targets/vim/README.md) · [Emacs](targets/emacs/README.md) ·
+[IntelliJ](targets/intellij/README.md) · [Zed](targets/zed/README.md) ·
+[Xcode](targets/xcode/README.md) · [CotEditor](targets/coteditor/README.md) ·
+[Kate](targets/kate/README.md) · [Gedit](targets/gedit/README.md) ·
+[DrRacket](targets/dr-racket/README.md)
 
-When both modes are selected, Vim/NeoVim, OpenCode, and iTerm2 emit one adaptive
-artifact per Air color family. Vim follows `background`, OpenCode uses native
-`dark`/`light` color pairs, and iTerm2 stores both profile color sets. Kitty also
-emits ready-to-install `dark-theme.auto.conf` and `light-theme.auto.conf` bundles.
+Terminals: [Terminal.app](targets/terminal-app/README.md) ·
+[iTerm2](targets/iterm2/README.md) ·
+[GNOME Terminal](targets/gnome-terminal/README.md) ·
+[Windows Terminal](targets/windows-terminal/README.md) ·
+[Konsole](targets/konsole/README.md) · [Kitty](targets/kitty/README.md)
 
-Available adapters in v0.1:
+CLI tools: [Fish](targets/fish/README.md) · [Tmux](targets/tmux/README.md) ·
+[Zellij](targets/zellij/README.md) · [bat](targets/bat/README.md) ·
+[fzf](targets/fzf/README.md) · [Nano](targets/nano/README.md) ·
+[BTop](targets/btop/README.md) · [Codex CLI](targets/codex/README.md) ·
+[OpenCode](targets/opencode/README.md) · [Agy](targets/agy/README.md)
 
-- CotEditor
-- Terminal.app
-- iTerm2
-- Vim and NeoVim
-- Emacs
-- Visual Studio
-- Visual Studio Code
-- IntelliJ Platform
-- Kitty
-- Fish
-- bat
-- fzf
-- Codex CLI
-- OpenCode
-- Nano
-- DrRacket
-- Zed
-- Tmux
-- Zellij
-- Agy (Antigravity CLI, inheriting terminal colors)
-- BTop
-- Xcode
-- Gedit
-- Kate
-- GNOME Terminal
-- Windows Terminal
-- Konsole
+Vim/NeoVim, OpenCode, and iTerm2 produce adaptive Light/Dark artifacts when both
+modes are selected. Kitty also produces automatic-appearance bundles.
+
+## Design
+
+Air keeps ordinary syntax neutral and uses authored accents for structure,
+navigation, and selection. Diagnostics, diffs, search, and terminal ANSI colors
+use consistent semantic roles across every variant.
+
+Rainbow keeps the interface on a calm blue-cyan axis while its syntax uses seven
+chromatic lanes plus neutral ink and gray.
 
 ## Development
+
+Lacold requires Ruby 3.2 or newer and has no runtime gem dependencies.
 
 ```sh
 bundle install
@@ -100,20 +119,23 @@ bundle exec rake build
 bundle exec rake site
 ```
 
-`rake check` validates the palette matrix, contrast requirements, parsable
-output, manifest completeness, and deterministic generation. The static demo is
-built into `_site/` and deployed through GitHub Pages.
+Generated themes are written to `dist/`. Use `--output` to choose another
+directory.
 
-Releases are built from version tags. Each target receives a compressed archive,
-the VS Code target also receives a VSIX, and `SHA256SUMS` covers every published
-asset. A release tag must match `Lacold::VERSION`, for example `v0.1.0` for
-version `0.1.0`.
+For a focused build, use the CLI directly:
 
-When the repository secret `VSCE_PAT` is configured, the tagged VSIX is also
-published to the Visual Studio Marketplace. When `OVSX_PAT` is configured, the
-same VSIX is published to Open VSX. Missing marketplace secrets simply skip the
-corresponding publishing step; GitHub Release creation still proceeds normally.
+```sh
+bin/lacold list
+bin/lacold build --target vim,kitty --color pink --mode dark
+```
+
+`rake check` validates palettes, contrast, generated output, manifest
+completeness, and deterministic builds. The static demo is built into `_site/`.
+
+Version tags such as `v0.1.0` create release archives, checksums, and a VSIX.
+Publishing to Visual Studio Marketplace and Open VSX is enabled when the
+corresponding repository credentials are configured.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+[MIT](LICENSE)

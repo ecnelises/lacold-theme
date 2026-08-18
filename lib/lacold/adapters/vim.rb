@@ -17,16 +17,7 @@ module Lacold
             variants.map { |theme| output("vim/colors/#{theme.id}.vim", vim_theme(theme)) }
           end
         end
-        outputs << output("vim/README.md", <<~MARKDOWN)
-          # Lacold for Vim and NeoVim
-
-          Copy the desired file from `colors/` into `~/.vim/colors/` or
-          `~/.config/nvim/colors/`, set `background` to `light` or `dark`, then
-          run `:colorscheme lacold-air-blue` (replace the color as needed).
-
-          Each complete theme family follows `background` at runtime. The files
-          include true-color values and restrained xterm-256 fallbacks.
-        MARKDOWN
+        outputs << target_readme
         outputs
       end
 

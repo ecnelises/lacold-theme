@@ -8,6 +8,8 @@ module Lacold
     Output = Data.define(:path, :content)
 
     class Base
+      SOURCE_ROOT = File.expand_path("../../..", __dir__)
+
       def id
         raise NotImplementedError
       end
@@ -32,6 +34,14 @@ module Lacold
 
       def output(path, content)
         Output.new(path, content.end_with?("\n") ? content : "#{content}\n")
+      end
+
+      def target_readme
+        output("#{id}/README.md", File.read(source_path("targets", id, "README.md")))
+      end
+
+      def source_path(*parts)
+        File.join(SOURCE_ROOT, *parts)
       end
 
       def json(value)

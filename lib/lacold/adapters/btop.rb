@@ -9,12 +9,7 @@ module Lacold
 
       def render(themes)
         files = themes.map { |theme| output("btop/#{theme.id}.theme", btop_theme(theme)) }
-        files << output("btop/README.md", <<~MARKDOWN)
-          # Lacold for BTop
-
-          Copy a `.theme` file to `~/.config/btop/themes/`, then select its
-          filename from BTop's `color_theme` setting.
-        MARKDOWN
+        files << target_readme
       end
 
       private

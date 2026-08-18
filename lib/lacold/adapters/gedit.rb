@@ -9,13 +9,7 @@ module Lacold
 
       def render(themes)
         files = themes.map { |theme| output("gedit/#{theme.id}.xml", gedit_theme(theme)) }
-        files << output("gedit/README.md", <<~MARKDOWN)
-          # Lacold for Gedit
-
-          Copy XML files to `~/.local/share/gtksourceview-5/styles/` (or the
-          matching GtkSourceView version's `styles` directory), restart Gedit,
-          and select the scheme in preferences.
-        MARKDOWN
+        files << target_readme
       end
 
       private

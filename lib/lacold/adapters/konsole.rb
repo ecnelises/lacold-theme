@@ -9,12 +9,7 @@ module Lacold
 
       def render(themes)
         files = themes.map { |theme| output("konsole/#{theme.id}.colorscheme", konsole_theme(theme)) }
-        files << output("konsole/README.md", <<~MARKDOWN)
-          # Lacold for Konsole
-
-          Copy a `.colorscheme` file to `~/.local/share/konsole/`, then select
-          it from the profile appearance settings.
-        MARKDOWN
+        files << target_readme
       end
 
       private

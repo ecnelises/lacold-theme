@@ -9,13 +9,7 @@ module Lacold
 
       def render(themes)
         files = themes.map { |theme| output("dr-racket/#{theme.id}/info.rkt", info(theme)) }
-        files << output("dr-racket/README.md", <<~MARKDOWN)
-          # Lacold for DrRacket
-
-          Install the selected directory as a local Racket package with
-          `raco pkg install ./lacold-air-blue-dark`, run `raco setup`, restart
-          DrRacket, and select the scheme in Colors preferences.
-        MARKDOWN
+        files << target_readme
       end
 
       private

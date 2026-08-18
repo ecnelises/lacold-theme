@@ -17,13 +17,7 @@ module Lacold
             variants.map { |theme| output("opencode/#{theme.id}.json", json(single_mode_theme(theme))) }
           end
         end
-        files << output("opencode/README.md", <<~MARKDOWN)
-          # Lacold for OpenCode
-
-          Copy a JSON file to `~/.config/opencode/themes/`, then set its basename
-          as `theme` in your OpenCode configuration. Complete theme families
-          include authored Light and Dark values in one adaptive JSON file.
-        MARKDOWN
+        files << target_readme
       end
 
       private

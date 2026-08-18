@@ -36,13 +36,7 @@ module Lacold
             variants.map { |theme| output("iterm2/#{theme.id}.itermcolors", profile(theme)) }
           end
         end
-        files << output("iterm2/README.md", <<~MARKDOWN)
-          # Lacold for iTerm2
-
-          Open **Settings → Profiles → Colors → Color Presets → Import**, choose
-          the desired `.itermcolors` file, then select it from Color Presets.
-          Complete families contain separate Light and Dark colors in one preset.
-        MARKDOWN
+        files << target_readme
       end
 
       private

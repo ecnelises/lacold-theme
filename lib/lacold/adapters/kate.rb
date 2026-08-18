@@ -16,12 +16,7 @@ module Lacold
 
       def render(themes)
         files = themes.map { |theme| output("kate/#{theme.id}.theme", json(kate_theme(theme))) }
-        files << output("kate/README.md", <<~MARKDOWN)
-          # Lacold for Kate
-
-          Copy `.theme` files into `~/.local/share/org.kde.syntax-highlighting/themes/`,
-          restart Kate, and select the theme under Editor → Fonts & Colors.
-        MARKDOWN
+        files << target_readme
       end
 
       private

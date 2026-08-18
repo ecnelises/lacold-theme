@@ -13,13 +13,7 @@ module Lacold
 
       def render(themes)
         files = themes.map { |theme| output("visual-studio/#{theme.id}.vstheme", visual_studio_theme(theme)) }
-        files << output("visual-studio/README.md", <<~MARKDOWN)
-          # Lacold for Visual Studio
-
-          Install Microsoft's Color Theme Designer extension, then import the
-          selected `.vstheme` file. These themes use the same restrained role
-          mapping as every other Lacold carrier.
-        MARKDOWN
+        files << target_readme
       end
 
       private

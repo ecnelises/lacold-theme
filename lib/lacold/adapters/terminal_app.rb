@@ -30,13 +30,7 @@ module Lacold
         files = themes.map do |theme|
           output("terminal-app/#{theme.id}.terminal", profile(theme))
         end
-        files << output("terminal-app/README.md", <<~MARKDOWN)
-          # Lacold for Terminal.app
-
-          Double-click a `.terminal` file to import it, then choose the profile
-          under **Terminal → Settings → Profiles**. The imported profile does not
-          change your font or shell.
-        MARKDOWN
+        files << target_readme
       end
 
       private

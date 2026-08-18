@@ -21,18 +21,7 @@ module Lacold
             TOML
           ]
         end
-        files << output("codex/README.md", <<~MARKDOWN)
-          # Lacold for Codex CLI
-
-          Copy the desired `.tmTheme` file to `$CODEX_HOME/themes/` (normally
-          `~/.codex/themes/`), then merge the matching TOML snippet into
-          `~/.codex/config.toml`. Codex syntax colors use the Lacold theme while
-          the surrounding terminal background comes from your Lacold terminal
-          profile.
-
-          The `tui.theme` setting is documented in the official Codex
-          configuration reference: <https://developers.openai.com/codex/config-reference/>.
-        MARKDOWN
+        files << target_readme
       end
     end
   end

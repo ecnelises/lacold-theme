@@ -11,13 +11,7 @@ module Lacold
         files = themes.map do |theme|
           output("windows-terminal/#{theme.id}.json", json(scheme(theme)))
         end
-        files << output("windows-terminal/README.md", <<~MARKDOWN)
-          # Lacold for Windows Terminal
-
-          Add the object from the selected JSON file to `schemes` in Windows
-          Terminal's `settings.json`, then set the profile's `colorScheme` to
-          the object's `name`.
-        MARKDOWN
+        files << target_readme
       end
 
       private

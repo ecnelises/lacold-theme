@@ -9,14 +9,7 @@ module Lacold
 
       def render(themes)
         files = themes.map { |theme| output("emacs/#{theme.id}-theme.el", emacs_theme(theme)) }
-        files << output("emacs/README.md", <<~MARKDOWN)
-          # Lacold for Emacs
-
-          Copy theme files into a directory in `custom-theme-load-path`, then
-          run `(load-theme 'lacold-air-blue-dark t)`. Themes cover core Emacs,
-          Font Lock, search, completion, Diff, VC, compilation, Flymake, Dired,
-          shells, Org, Magit, Corfu, Company, and Vertico faces.
-        MARKDOWN
+        files << target_readme
       end
 
       private

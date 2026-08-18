@@ -24,12 +24,7 @@ module Lacold
 
       def render(themes)
         files = themes.map { |theme| output("xcode/#{theme.id}.xccolortheme", xcode_theme(theme)) }
-        files << output("xcode/README.md", <<~MARKDOWN)
-          # Lacold for Xcode
-
-          Copy `.xccolortheme` files to `~/Library/Developer/Xcode/UserData/FontAndColorThemes/`,
-          restart Xcode, and select one under Themes in Xcode settings.
-        MARKDOWN
+        files << target_readme
       end
 
       private

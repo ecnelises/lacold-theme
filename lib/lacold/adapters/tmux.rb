@@ -9,12 +9,7 @@ module Lacold
 
       def render(themes)
         files = themes.map { |theme| output("tmux/#{theme.id}.conf", tmux_theme(theme)) }
-        files << output("tmux/README.md", <<~MARKDOWN)
-          # Lacold for Tmux
-
-          Add `source-file /path/to/lacold-air-blue-dark.conf` to `.tmux.conf`,
-          then reload with `tmux source-file ~/.tmux.conf`.
-        MARKDOWN
+        files << target_readme
       end
 
       private

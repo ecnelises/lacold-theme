@@ -9,13 +9,7 @@ module Lacold
 
       def render(themes)
         files = themes.map { |theme| output("fish/#{theme.id}.fish", fish_theme(theme)) }
-        files << output("fish/README.md", <<~MARKDOWN)
-          # Lacold for Fish
-
-          Source the chosen file from `~/.config/fish/config.fish`, or copy its
-          `set -g` declarations into your existing configuration. Pair it with a
-          Lacold terminal profile for the background and ANSI palette.
-        MARKDOWN
+        files << target_readme
       end
 
       private

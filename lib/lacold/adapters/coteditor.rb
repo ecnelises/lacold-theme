@@ -9,12 +9,7 @@ module Lacold
 
       def render(themes)
         files = themes.map { |theme| output("coteditor/#{theme.id}.cottheme", json(coteditor_theme(theme))) }
-        files << output("coteditor/README.md", <<~MARKDOWN)
-          # Lacold for CotEditor
-
-          Double-click a `.cottheme` file to import it, or copy it into
-          CotEditor's user Themes directory. Select it in CotEditor settings.
-        MARKDOWN
+        files << target_readme
       end
 
       private

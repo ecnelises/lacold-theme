@@ -9,12 +9,7 @@ module Lacold
 
       def render(themes)
         files = themes.map { |theme| output("nano/#{theme.id}.nanorc", nano_theme(theme)) }
-        files << output("nano/README.md", <<~MARKDOWN)
-          # Lacold for GNU nano
-
-          Add `include /path/to/lacold-air-blue-dark.nanorc` to `~/.nanorc`.
-          These files theme nano's interface; existing language syntax rules remain intact.
-        MARKDOWN
+        files << target_readme
       end
 
       private
