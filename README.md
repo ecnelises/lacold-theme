@@ -1,28 +1,33 @@
 # Lacold
 
+<p>
+<img src="assets/lacold-wordmark-logo.png" alt="Lacold" width="150" align="left">
 Lacold is an ink-first theme family for editors, terminals, and developer tools.
 Neutral colors carry most text and interface hierarchy, restrained accents add
-structure, and a fixed semantic palette keeps feedback clear.
+structure, and a fixed semantic palette keeps feedback clear.<br><br>
+The first collection, <strong>Air</strong>, includes Blue, Green, Orange, Pink,
+Purple, and Rainbow in independent Light and Dark palettes: twelve variants in
+total.
+</p>
 
-The first collection, **Air**, includes Blue, Green, Orange, Pink, Purple, and
-Rainbow in independent Light and Dark palettes: twelve variants in total.
+<br clear="left">
 
 ## Preview
 
 <p align="center">
 <picture>
     <source media="(prefers-color-scheme: dark)"
-            srcset="assets/screenshots/dark-air-rainbow.png">
+            srcset="assets/screenshots/dark-air-blue.png">
     <source media="(prefers-color-scheme: light)"
-            srcset="assets/screenshots/light-air-rainbow.png">
-    <img src="assets/screenshots/light-air-rainbow.png"
-        alt="Lacold Air Rainbow"
+            srcset="assets/screenshots/light-air-blue.png">
+    <img src="assets/screenshots/dark-air-blue.png"
+        alt="Lacold Air Blue"
         width="100%">
 </picture>
 </p>
 
 <p align="center">
-<em>Air Rainbow — the preview follows your GitHub appearance.</em>
+<em>Air Blue — the preview follows your GitHub appearance.</em>
 </p>
 
 <details>
