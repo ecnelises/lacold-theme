@@ -106,7 +106,13 @@ built into `_site/` and deployed through GitHub Pages.
 
 Releases are built from version tags. Each target receives a compressed archive,
 the VS Code target also receives a VSIX, and `SHA256SUMS` covers every published
-asset.
+asset. A release tag must match `Lacold::VERSION`, for example `v0.1.0` for
+version `0.1.0`.
+
+When the repository secret `VSCE_PAT` is configured, the tagged VSIX is also
+published to the Visual Studio Marketplace. When `OVSX_PAT` is configured, the
+same VSIX is published to Open VSX. Missing marketplace secrets simply skip the
+corresponding publishing step; GitHub Release creation still proceeds normally.
 
 ## License
 
