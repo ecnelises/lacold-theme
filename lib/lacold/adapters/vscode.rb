@@ -33,7 +33,7 @@ module Lacold
           "displayName" => "Lacold Theme",
           "description" => "Ink-first themes with restrained accents and clear semantic feedback.",
           "version" => Lacold::VERSION,
-          "publisher" => "ecnelises",
+          "publisher" => "aozy",
           "license" => "SEE LICENSE IN LICENSE.txt",
           "pricing" => "Free",
           "icon" => "images/lacold-wordmark-logo.png",

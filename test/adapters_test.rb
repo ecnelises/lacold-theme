@@ -47,7 +47,7 @@ class AdaptersTest < Minitest::Test
 
     assert_equal 12, package.dig("contributes", "themes").size
     assert_equal %w[vs vs-dark], package.dig("contributes", "themes").map { |item| item.fetch("uiTheme") }.uniq.sort
-    assert_equal "ecnelises", package.fetch("publisher")
+    assert_equal "aozy", package.fetch("publisher")
     assert_equal "images/lacold-wordmark-logo.png", package.fetch("icon")
     assert_equal "SEE LICENSE IN LICENSE.txt", package.fetch("license")
     assert_equal "https://github.com/ecnelises/lacold-theme.git", package.dig("repository", "url")
