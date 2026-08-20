@@ -10,6 +10,22 @@ class CLITest < Minitest::Test
     assert_equal 0, status
     assert_includes output.string, "Backgrounds: air"
     assert_includes output.string, "Colors: blue, green, orange, pink, purple, rainbow"
+    assert_match(/^Targets: .*\bcodex\b/, output.string)
+  end
+
+  def test_build_generates_codex_theme_and_config
+    Dir.mktmpdir("lacold-cli") do |directory|
+      status = Lacold::CLI.run(
+        ["build", "--target", "codex", "--color", "blue", "--mode", "dark", "--output", directory],
+        out: StringIO.new,
+        err: StringIO.new
+      )
+
+      assert_equal 0, status
+      assert File.file?(File.join(directory, "codex/themes/lacold-air-blue-dark.tmTheme"))
+      assert File.file?(File.join(directory, "codex/config/lacold-air-blue-dark.toml"))
+      refute File.exist?(File.join(directory, "vscode"))
+    end
   end
 
   def test_build_filters_target_color_and_mode

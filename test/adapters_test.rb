@@ -115,6 +115,22 @@ class AdaptersTest < Minitest::Test
     end
   end
 
+  def test_codex_generates_installable_theme_and_config
+    theme = Lacold.themes(colors: ["blue"], modes: [:dark]).first
+    outputs = Lacold::Adapters.find("codex").render([theme])
+    theme_output = outputs.find { |item| item.path == "codex/themes/#{theme.id}.tmTheme" }
+    config_output = outputs.find { |item| item.path == "codex/config/#{theme.id}.toml" }
+
+    assert theme_output
+    assert config_output
+    document = REXML::Document.new(theme_output.content)
+    assert_equal theme.name, REXML::XPath.first(document, "/plist/dict/key[.='name']/following-sibling::string[1]").text
+    assert_includes theme_output.content, theme.bg
+    assert_includes theme_output.content, theme.caret
+    assert_includes config_output.content, "[tui]"
+    assert_includes config_output.content, %(theme = "#{theme.id}")
+  end
+
   def test_all_json_theme_formats_parse
     themes = Lacold.themes(colors: ["blue"], modes: [:dark])
     %w[coteditor kate opencode windows-terminal zed agy].each do |target|

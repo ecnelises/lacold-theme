@@ -15,7 +15,8 @@ module Lacold
           [
             output("codex/themes/#{theme.id}.tmTheme", textmate(theme)),
             output("codex/config/#{theme.id}.toml", <<~TOML)
-              # Merge this table into ~/.codex/config.toml.
+              # Merge this table into $CODEX_HOME/config.toml
+              # (normally ~/.codex/config.toml).
               [tui]
               theme = "#{theme.id}"
             TOML
