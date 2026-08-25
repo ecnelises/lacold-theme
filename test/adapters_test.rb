@@ -5,7 +5,7 @@ require "json"
 require "rexml/document"
 
 class AdaptersTest < Minitest::Test
-  PAIRED_ADAPTERS = %w[iterm2 opencode vim].freeze
+  PAIRED_ADAPTERS = %w[fish iterm2 opencode vim].freeze
 
   def test_every_adapter_generates_every_selected_variant
     themes = Lacold.themes
@@ -205,13 +205,42 @@ class AdaptersTest < Minitest::Test
     assert_includes generated, theme.green
   end
 
+  def test_fish_generates_native_adaptive_theme_files
+    themes = Lacold.themes(colors: ["blue"])
+    outputs = Lacold::Adapters.find("fish").render(themes)
+    fish = outputs.find { |item| item.path == "fish/themes/lacold-air-blue.theme" }
+    light = themes.find { |theme| theme.mode == :light }
+    dark = themes.find { |theme| theme.mode == :dark }
+
+    assert fish
+    assert_includes fish.content, "# name: 'Lacold Air Blue'"
+    assert_includes fish.content, "[light]\n# preferred_background: #{light.bg.delete_prefix("#")}"
+    assert_includes fish.content, "[dark]\n# preferred_background: #{dark.bg.delete_prefix("#")}"
+    assert_includes fish.content, "fish_color_error AA4949"
+    assert_includes fish.content, "fish_color_quote 417553"
+    assert_match(/^fish_pager_color_selected_background --background=[0-9A-F]{6}$/, fish.content)
+    refute_includes fish.content, "set -g"
+  end
+
+  def test_fish_keeps_filtered_variants_as_selectable_single_mode_themes
+    theme = Lacold.themes(colors: ["blue"], modes: [:dark]).first
+    outputs = Lacold::Adapters.find("fish").render([theme])
+    fish = outputs.find { |item| item.path == "fish/themes/#{theme.id}.theme" }
+
+    assert fish
+    assert_includes fish.content, "# name: '#{theme.name}'"
+    assert_includes fish.content, "# preferred_background: #{theme.bg.delete_prefix("#")}"
+    refute_match(/^\[(?:light|dark|unknown)\]$/, fish.content)
+    refute_includes fish.content, "set -g"
+  end
+
   def test_fish_and_kitty_share_editor_semantics
     theme = Lacold.themes(colors: ["blue"], modes: [:light]).first
     fish = Lacold::Adapters.find("fish").render([theme]).first.content
     kitty = Lacold::Adapters.find("kitty").render([theme]).first.content
 
-    assert_includes fish, "set -g fish_color_error AA4949"
-    assert_includes fish, "set -g fish_color_quote 417553"
+    assert_includes fish, "fish_color_error AA4949"
+    assert_includes fish, "fish_color_quote 417553"
     assert_includes kitty, "cursor #{theme.caret}"
     assert_includes kitty, "bell_border_color #9D5419"
     assert_includes kitty, "color1 #AA4949"

@@ -101,8 +101,8 @@ CLI tools: [Fish](targets/fish/README.md) · [Tmux](targets/tmux/README.md) ·
 [BTop](targets/btop/README.md) · [Codex CLI](targets/codex/README.md) ·
 [OpenCode](targets/opencode/README.md) · [Agy](targets/agy/README.md)
 
-Vim/NeoVim, OpenCode, and iTerm2 produce adaptive Light/Dark artifacts when both
-modes are selected. Kitty also produces automatic-appearance bundles.
+Fish, Vim/NeoVim, OpenCode, and iTerm2 produce adaptive Light/Dark artifacts
+when both modes are selected. Kitty also produces automatic-appearance bundles.
 
 ## Design
 
