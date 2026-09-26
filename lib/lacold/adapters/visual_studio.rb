@@ -5,6 +5,7 @@ module Lacold
     class VisualStudio < Base
       TEXT_MANAGER_CATEGORY = "{58E96763-1D3B-4E05-B6BA-FF7115FD0B7B}"
       LANGUAGE_SERVICE_CATEGORY = "{E0187991-B458-4F7E-8CA9-42C9A573B56C}"
+      CLASSIFICATION_CATEGORY = "{75A05685-00A8-4DED-BAE5-E7A50BFA929A}"
       TEXT_MARKER_CATEGORY = "{FF349800-EA43-46C1-8C98-878E78F46501}"
 
       def id = "visual-studio"
@@ -50,6 +51,22 @@ module Lacold
           vs_color("Line Number", foreground: theme.line_nr, transparent_background: true),
           vs_color("URL Hyperlink", foreground: theme.primary, transparent_background: true)
         ].join("\n")
+        # The editor's MEF classifications are separate from language-service
+        # colors. C++ uses these for control-flow keywords and directives.
+        classification_colors = [
+          vs_color("Keyword", foreground: theme.syntax_color(:keyword, theme.primary), transparent_background: true),
+          vs_color("keyword - control", foreground: theme.syntax_color(:keyword, theme.primary), transparent_background: true),
+          vs_color("CppControlKeywordSyntacticTokenFormat", foreground: theme.syntax_color(:keyword, theme.primary), transparent_background: true),
+          vs_color("C/C++ User Keywords", foreground: theme.syntax_color(:keyword, theme.primary), transparent_background: true),
+          vs_color("CppNewDeleteSemanticTokenFormat", foreground: theme.syntax_color(:keyword, theme.primary), transparent_background: true),
+          vs_color("Preprocessor Keyword", foreground: theme.syntax_color(:preprocessor, theme.primary), transparent_background: true),
+          vs_color("preprocessor text", foreground: theme.fg, transparent_background: true),
+          vs_color("CppMacroSemanticTokenFormat", foreground: theme.syntax_color(:macro, theme.accent_secondary), transparent_background: true),
+          vs_color("Comment", foreground: theme.muted, transparent_background: true),
+          vs_color("String", foreground: theme.syntax_color(:string, theme.fg), transparent_background: true),
+          vs_color("Number", foreground: theme.syntax_color(:number, theme.accent_secondary), transparent_background: true),
+          vs_color("Operator", foreground: theme.syntax_color(:operator, theme.secondary), transparent_background: true)
+        ].join("\n")
         marker_colors = [
           vs_color("Current Statement", transparent_foreground: true, background: theme.line),
           vs_color("Brace Matching (Rectangle)", transparent_foreground: true, background: theme.bracket),
@@ -65,6 +82,9 @@ module Lacold
               </Category>
               <Category Name="Text Editor Language Service Items" GUID="#{LANGUAGE_SERVICE_CATEGORY}">
           #{language_colors}
+              </Category>
+              <Category Name="MEFColours" GUID="#{CLASSIFICATION_CATEGORY}">
+          #{classification_colors}
               </Category>
               <Category Name="Text Editor Text Marker Items" GUID="#{TEXT_MARKER_CATEGORY}">
           #{marker_colors}

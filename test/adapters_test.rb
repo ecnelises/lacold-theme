@@ -128,6 +128,29 @@ class AdaptersTest < Minitest::Test
     end
   end
 
+  def test_visual_studio_cpp_classifications_use_theme_colors
+    theme = Lacold.themes(colors: ["rainbow"], modes: [:dark]).first
+    output = Lacold::Adapters.find("visual-studio").render([theme])
+      .find { |item| item.path.end_with?(".vstheme") }
+    document = REXML::Document.new(output.content)
+    category = REXML::XPath.first(document, "//Category[@GUID='#{Lacold::Adapters::VisualStudio::CLASSIFICATION_CATEGORY}']")
+
+    assert category
+    expected = {
+      "Keyword" => theme.syntax_color(:keyword, theme.primary),
+      "keyword - control" => theme.syntax_color(:keyword, theme.primary),
+      "CppControlKeywordSyntacticTokenFormat" => theme.syntax_color(:keyword, theme.primary),
+      "Preprocessor Keyword" => theme.syntax_color(:preprocessor, theme.primary),
+      "preprocessor text" => theme.fg,
+      "CppMacroSemanticTokenFormat" => theme.syntax_color(:macro, theme.accent_secondary)
+    }
+    expected.each do |name, color|
+      item = category.elements.to_a.find { |element| element.attributes["Name"] == name }
+      assert item, name
+      assert_equal "FF#{color.delete_prefix('#').upcase}", item.elements["Foreground"].attributes["Source"], name
+    end
+  end
+
   def test_codex_generates_installable_theme_and_config
     theme = Lacold.themes(colors: ["blue"], modes: [:dark]).first
     outputs = Lacold::Adapters.find("codex").render([theme])
