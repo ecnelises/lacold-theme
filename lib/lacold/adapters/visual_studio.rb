@@ -24,10 +24,10 @@ module Lacold
 
       def vs_color(name, foreground: nil, background: nil, transparent_foreground: false, transparent_background: false)
         values = []
-        values << "<Foreground Type=\"CT_INVALID\" Source=\"00000000\" />" if transparent_foreground
         values << "<Background Type=\"CT_INVALID\" Source=\"00000000\" />" if transparent_background
-        values << "<Foreground Type=\"CT_RAW\" Source=\"#{raw(foreground)}\" />" if foreground
         values << "<Background Type=\"CT_RAW\" Source=\"#{raw(background)}\" />" if background
+        values << "<Foreground Type=\"CT_INVALID\" Source=\"00000000\" />" if transparent_foreground
+        values << "<Foreground Type=\"CT_RAW\" Source=\"#{raw(foreground)}\" />" if foreground
         "      <Color Name=\"#{xml(name)}\">#{values.join}</Color>"
       end
 

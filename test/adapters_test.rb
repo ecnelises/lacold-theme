@@ -116,6 +116,18 @@ class AdaptersTest < Minitest::Test
     end
   end
 
+  def test_visual_studio_colors_follow_compiler_element_order
+    theme = Lacold.themes(colors: ["blue"], modes: [:dark]).first
+    output = Lacold::Adapters.find("visual-studio").render([theme])
+      .find { |item| item.path.end_with?(".vstheme") }
+    document = REXML::Document.new(output.content)
+
+    REXML::XPath.each(document, "//Color") do |color|
+      children = color.elements.to_a.map(&:name)
+      assert_equal %w[Background Foreground].select { |name| children.include?(name) }, children, color.attributes["Name"]
+    end
+  end
+
   def test_codex_generates_installable_theme_and_config
     theme = Lacold.themes(colors: ["blue"], modes: [:dark]).first
     outputs = Lacold::Adapters.find("codex").render([theme])
