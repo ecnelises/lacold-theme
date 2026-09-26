@@ -19,7 +19,8 @@ class AdaptersTest < Minitest::Test
         end
       else
         themes.each do |theme|
-          assert outputs.any? { |item| item.path.include?(theme.id) }, "#{adapter.id} omitted #{theme.id}"
+          identifier = adapter.id == "coteditor" ? theme.name : theme.id
+          assert outputs.any? { |item| item.path.include?(identifier) }, "#{adapter.id} omitted #{theme.id}"
         end
       end
     end
@@ -216,10 +217,31 @@ class AdaptersTest < Minitest::Test
     assert_includes fish.content, "# name: 'Lacold Air Blue'"
     assert_includes fish.content, "[light]\n# preferred_background: #{light.bg.delete_prefix("#")}"
     assert_includes fish.content, "[dark]\n# preferred_background: #{dark.bg.delete_prefix("#")}"
+    assert_includes fish.content, "[unknown]\n# preferred_background: #{dark.bg.delete_prefix("#")}"
     assert_includes fish.content, "fish_color_error AA4949"
     assert_includes fish.content, "fish_color_quote 417553"
     assert_match(/^fish_pager_color_selected_background --background=[0-9A-F]{6}$/, fish.content)
     refute_includes fish.content, "set -g"
+  end
+
+  def test_coteditor_generates_named_native_themes_with_authored_colors
+    theme = Lacold.themes(colors: ["rainbow"], modes: [:dark]).first
+    output = Lacold::Adapters.find("coteditor").render([theme])
+      .find { |item| item.path == "coteditor/#{theme.name}.cottheme" }
+
+    assert output
+    generated = JSON.parse(output.content)
+    assert_equal theme.name, generated.fetch("name")
+    assert_equal theme.bg, generated.dig("background", "color")
+    assert_equal theme.primary, generated.dig("insertionPoint", "color")
+    assert_equal false, generated.dig("insertionPoint", "usesSystemSetting")
+    assert_equal theme.selection, generated.dig("selection", "color")
+    assert_equal false, generated.dig("selection", "usesSystemSetting")
+    assert_equal theme.syntax.fetch(:function), generated.dig("commands", "color")
+    assert_equal theme.syntax.fetch(:constant), generated.dig("characters", "color")
+    assert_equal theme.syntax.fetch(:constant), generated.dig("values", "color")
+    assert_equal theme.syntax.fetch(:variable), generated.dig("variables", "color")
+    assert_equal "https://github.com/ecnelises/lacold-theme", generated.dig("metadata", "distributionURL")
   end
 
   def test_fish_keeps_filtered_variants_as_selectable_single_mode_themes

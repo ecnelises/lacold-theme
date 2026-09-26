@@ -8,7 +8,7 @@ module Lacold
       def description = "CotEditor .cottheme files"
 
       def render(themes)
-        files = themes.map { |theme| output("coteditor/#{theme.id}.cottheme", json(coteditor_theme(theme))) }
+        files = themes.map { |theme| output("coteditor/#{theme.name}.cottheme", json(coteditor_theme(theme))) }
         files << target_readme
       end
 
@@ -24,8 +24,8 @@ module Lacold
         {
           "attributes" => color(theme.syntax_color(:attribute, theme.accent_secondary)),
           "background" => color(theme.bg),
-          "characters" => color(theme.fg),
-          "commands" => color(theme.syntax_color(:function, theme.primary)),
+          "characters" => color(theme.syntax_color(:constant, theme.fg)),
+          "commands" => color(theme.syntax_color(:function, theme.fg)),
           "comments" => color(theme.muted),
           "highlight" => color(theme.wash, system: false),
           "insertionPoint" => color(theme.primary, system: false),
@@ -35,15 +35,17 @@ module Lacold
           "metadata" => {
             "author" => "Lacold contributors",
             "description" => "#{theme.name}; neutral foundation with restrained authored accents.",
+            "distributionURL" => "https://github.com/ecnelises/lacold-theme",
             "license" => "MIT"
           },
+          "name" => theme.name,
           "numbers" => color(theme.syntax_color(:number, theme.accent_secondary)),
           "selection" => color(theme.selection, system: false),
           "strings" => color(theme.syntax_color(:string, theme.fg)),
           "text" => color(theme.fg),
           "types" => color(theme.syntax_color(:type, theme.accent_secondary)),
-          "values" => color(theme.fg),
-          "variables" => color(theme.syntax_color(:variable, theme.primary))
+          "values" => color(theme.syntax_color(:constant, theme.fg)),
+          "variables" => color(theme.syntax_color(:variable, theme.fg))
         }
       end
     end

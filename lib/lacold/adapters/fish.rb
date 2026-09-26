@@ -31,7 +31,8 @@ module Lacold
         [
           metadata(light.family_name),
           theme_section(light),
-          theme_section(dark)
+          theme_section(dark),
+          theme_section(dark, mode: :unknown)
         ].join("\n\n")
       end
 
@@ -51,9 +52,9 @@ module Lacold
         THEME
       end
 
-      def theme_section(theme)
+      def theme_section(theme, mode: theme.mode)
         [
-          "[#{theme.mode}]",
+          "[#{mode}]",
           "# preferred_background: #{bare(theme.bg)}",
           theme_colors(theme)
         ].join("\n")

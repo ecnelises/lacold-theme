@@ -13,5 +13,6 @@ Add the `fish_config theme choose` command to `~/.config/fish/config.fish` to
 select the theme in new shells. Do not source the theme file directly.
 
 On Fish 4.3 or newer, each complete Lacold color family follows the terminal's
-light or dark appearance automatically. Pair it with the matching Lacold
-terminal profile so the theme's preferred background is available.
+light or dark appearance automatically. Terminals that cannot report their
+appearance use the dark variant. Pair the theme with the matching Lacold
+terminal profile so its preferred background is available.
