@@ -38,7 +38,7 @@ function applyTheme() {
 
   document.querySelectorAll("[data-color]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.color === state.color)));
   document.querySelectorAll("[data-mode]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.mode === state.mode)));
-  byId("download-theme").textContent = `Air ${capitalize(state.color)}`;
+  byId("download-theme").textContent = `Lacold ${capitalize(state.color)}`;
   byId("status-color").textContent = capitalize(state.color);
   byId("footer-color").textContent = capitalize(state.color);
   byId("footer-mode").textContent = capitalize(state.mode);

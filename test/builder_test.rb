@@ -13,7 +13,7 @@ class BuilderTest < Minitest::Test
         themes: themes
       ).build
 
-      assert File.file?(File.join(directory, "kitty/lacold-air-purple-dark.conf"))
+      assert File.file?(File.join(directory, "kitty/lacold-purple-dark.conf"))
       assert_equal ["purple"], manifest.fetch("colors")
       assert_equal 1, manifest.fetch("variants").size
       assert_equal manifest, JSON.parse(File.read(File.join(directory, "manifest.json")))

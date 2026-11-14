@@ -22,8 +22,8 @@ class CLITest < Minitest::Test
       )
 
       assert_equal 0, status
-      assert File.file?(File.join(directory, "codex/themes/lacold-air-blue-dark.tmTheme"))
-      assert File.file?(File.join(directory, "codex/config/lacold-air-blue-dark.toml"))
+      assert File.file?(File.join(directory, "codex/themes/lacold-blue-dark.tmTheme"))
+      assert File.file?(File.join(directory, "codex/config/lacold-blue-dark.toml"))
       refute File.exist?(File.join(directory, "vscode"))
     end
   end
@@ -38,7 +38,7 @@ class CLITest < Minitest::Test
       )
 
       assert_equal 0, status
-      assert File.file?(File.join(directory, "kitty/lacold-air-green-dark.conf"))
+      assert File.file?(File.join(directory, "kitty/lacold-green-dark.conf"))
       refute File.exist?(File.join(directory, "vscode"))
     end
   end

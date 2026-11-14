@@ -13,7 +13,7 @@ snippet from `dist/codex/config/` into `$CODEX_HOME/config.toml` (normally
 
 ```toml
 [tui]
-theme = "lacold-air-blue-dark"
+theme = "lacold-blue-dark"
 ```
 
 The theme name is the `.tmTheme` filename without its extension. Pair it with

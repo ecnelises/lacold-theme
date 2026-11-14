@@ -18,7 +18,7 @@ class SiteBuilderTest < Minitest::Test
       codex = data.fetch("targets").find { |target| target.fetch("id") == "codex" }
       assert codex
       assert_equal "Codex CLI", codex.fetch("name")
-      rainbow = data.fetch("themes").find { |theme| theme.fetch("id") == "lacold-air-rainbow-light" }
+      rainbow = data.fetch("themes").find { |theme| theme.fetch("id") == "lacold-rainbow-light" }
       assert_equal "#6F55A3", rainbow.dig("syntax", "keyword")
       assert_equal "#A64050", rainbow.dig("syntax", "attribute")
       assert_equal %w[red orange yellow green cyan blue violet ink gray], rainbow.fetch("spectrum").keys

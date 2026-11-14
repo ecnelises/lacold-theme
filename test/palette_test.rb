@@ -26,9 +26,9 @@ class PaletteTest < Minitest::Test
   def test_light_and_dark_variants_share_a_family_identity
     light, dark = Lacold.themes(colors: ["blue"])
 
-    assert_equal "lacold-air-blue", light.family_id
+    assert_equal "lacold-blue", light.family_id
     assert_equal light.family_id, dark.family_id
-    assert_equal "Lacold Air Blue", light.family_name
+    assert_equal "Lacold Blue", light.family_name
     assert_equal light.family_name, dark.family_name
   end
 

@@ -181,18 +181,18 @@ class AdaptersTest < Minitest::Test
   def test_vim_and_neovim_share_the_compatible_adapter
     assert_same Lacold::Adapters.find("vim"), Lacold::Adapters.find("neovim")
     content = Lacold::Adapters.find("vim").render(Lacold.themes(colors: ["pink"], modes: [:dark])).first.content
-    assert_includes content, "let g:colors_name = 'lacold-air-pink-dark'"
+    assert_includes content, "let g:colors_name = 'lacold-pink-dark'"
     assert_includes content, "set background=dark"
   end
 
   def test_complete_vim_family_follows_background
     themes = Lacold.themes(colors: ["blue"])
     output = Lacold::Adapters.find("vim").render(themes)
-      .find { |item| item.path == "vim/colors/lacold-air-blue.vim" }
+      .find { |item| item.path == "vim/colors/lacold-blue.vim" }
 
     assert output
     assert_includes output.content, "if &background ==# 'light'"
-    assert_includes output.content, "let g:colors_name = 'lacold-air-blue'"
+    assert_includes output.content, "let g:colors_name = 'lacold-blue'"
     assert_includes output.content, themes.find { |theme| theme.mode == :light }.bg
     assert_includes output.content, themes.find { |theme| theme.mode == :dark }.bg
     refute_match(/^set background=/, output.content)
@@ -201,7 +201,7 @@ class AdaptersTest < Minitest::Test
   def test_opencode_combines_authored_light_and_dark_values
     themes = Lacold.themes(colors: ["blue"])
     generated = JSON.parse(Lacold::Adapters.find("opencode").render(themes)
-      .find { |item| item.path == "opencode/lacold-air-blue.json" }.content)
+      .find { |item| item.path == "opencode/lacold-blue.json" }.content)
     light = themes.find { |theme| theme.mode == :light }
     dark = themes.find { |theme| theme.mode == :dark }
 
@@ -213,7 +213,7 @@ class AdaptersTest < Minitest::Test
 
   def test_iterm2_combines_light_and_dark_profile_colors
     content = Lacold::Adapters.find("iterm2").render(Lacold.themes(colors: ["blue"]))
-      .find { |item| item.path == "iterm2/lacold-air-blue.itermcolors" }.content
+      .find { |item| item.path == "iterm2/lacold-blue.itermcolors" }.content
 
     assert REXML::Document.new(content)
     assert_includes content, "<key>Background Color (Dark)</key>"
@@ -225,9 +225,9 @@ class AdaptersTest < Minitest::Test
     outputs = Lacold::Adapters.find("kitty").render(Lacold.themes(colors: ["blue"]))
     paths = outputs.map(&:path)
 
-    assert_includes paths, "kitty/auto/lacold-air-blue/dark-theme.auto.conf"
-    assert_includes paths, "kitty/auto/lacold-air-blue/light-theme.auto.conf"
-    assert_includes paths, "kitty/auto/lacold-air-blue/no-preference-theme.auto.conf"
+    assert_includes paths, "kitty/auto/lacold-blue/dark-theme.auto.conf"
+    assert_includes paths, "kitty/auto/lacold-blue/light-theme.auto.conf"
+    assert_includes paths, "kitty/auto/lacold-blue/no-preference-theme.auto.conf"
   end
 
   def test_generated_vim_theme_uses_authored_palette_roles
@@ -244,12 +244,12 @@ class AdaptersTest < Minitest::Test
   def test_fish_generates_native_adaptive_theme_files
     themes = Lacold.themes(colors: ["blue"])
     outputs = Lacold::Adapters.find("fish").render(themes)
-    fish = outputs.find { |item| item.path == "fish/themes/lacold-air-blue.theme" }
+    fish = outputs.find { |item| item.path == "fish/themes/lacold-blue.theme" }
     light = themes.find { |theme| theme.mode == :light }
     dark = themes.find { |theme| theme.mode == :dark }
 
     assert fish
-    assert_includes fish.content, "# name: 'Lacold Air Blue'"
+    assert_includes fish.content, "# name: 'Lacold Blue'"
     assert_includes fish.content, "[light]\n# preferred_background: #{light.bg.delete_prefix("#")}"
     assert_includes fish.content, "[dark]\n# preferred_background: #{dark.bg.delete_prefix("#")}"
     assert_includes fish.content, "[unknown]\n# preferred_background: #{dark.bg.delete_prefix("#")}"

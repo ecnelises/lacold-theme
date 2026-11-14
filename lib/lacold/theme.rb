@@ -33,19 +33,19 @@ module Lacold
     end
 
     def id
-      "lacold-#{background}-#{color}-#{mode}"
+      "lacold-#{color}-#{mode}"
     end
 
     def family_id
-      "lacold-#{background}-#{color}"
+      "lacold-#{color}"
     end
 
     def name
-      "Lacold #{background.capitalize} #{color.capitalize} #{mode.to_s.capitalize}"
+      "Lacold #{color.capitalize} #{mode.to_s.capitalize}"
     end
 
     def family_name
-      "Lacold #{background.capitalize} #{color.capitalize}"
+      "Lacold #{color.capitalize}"
     end
 
     def accent_secondary

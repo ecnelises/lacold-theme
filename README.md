@@ -5,9 +5,8 @@
 Lacold is an ink-first theme family for editors, terminals, and developer tools.
 Neutral colors carry most text and interface hierarchy, restrained accents add
 structure, and a fixed semantic palette keeps feedback clear.<br><br>
-The first collection, <strong>Air</strong>, includes Blue, Green, Orange, Pink,
-Purple, and Rainbow in independent Light and Dark palettes: twelve variants in
-total.
+The theme family includes Blue, Green, Orange, Pink, Purple, and Rainbow in
+independent Light and Dark palettes: twelve variants in total.
 </p>
 
 <br clear="left">
@@ -21,13 +20,13 @@ total.
     <source media="(prefers-color-scheme: light)"
             srcset="assets/screenshots/light-air-blue.png">
     <img src="assets/screenshots/dark-air-blue.png"
-        alt="Lacold Air Blue"
+        alt="Lacold Blue"
         width="100%">
 </picture>
 </p>
 
 <p align="center">
-<em>Air Blue — the preview follows your GitHub appearance.</em>
+<em>Lacold Blue — the preview follows your GitHub appearance.</em>
 </p>
 
 <details>
@@ -46,33 +45,33 @@ total.
 <tbody>
     <tr>
     <th>Blue</th>
-    <td><img src="assets/screenshots/light-air-blue.png" alt="Air Blue Light"></td>
-    <td><img src="assets/screenshots/dark-air-blue.png" alt="Air Blue Dark"></td>
+    <td><img src="assets/screenshots/light-air-blue.png" alt="Lacold Blue Light"></td>
+    <td><img src="assets/screenshots/dark-air-blue.png" alt="Lacold Blue Dark"></td>
     </tr>
     <tr>
     <th>Green</th>
-    <td><img src="assets/screenshots/light-air-green.png" alt="Air Green Light"></td>
-    <td><img src="assets/screenshots/dark-air-green.png" alt="Air Green Dark"></td>
+    <td><img src="assets/screenshots/light-air-green.png" alt="Lacold Green Light"></td>
+    <td><img src="assets/screenshots/dark-air-green.png" alt="Lacold Green Dark"></td>
     </tr>
     <tr>
     <th>Orange</th>
-    <td><img src="assets/screenshots/light-air-orange.png" alt="Air Orange Light"></td>
-    <td><img src="assets/screenshots/dark-air-orange.png" alt="Air Orange Dark"></td>
+    <td><img src="assets/screenshots/light-air-orange.png" alt="Lacold Orange Light"></td>
+    <td><img src="assets/screenshots/dark-air-orange.png" alt="Lacold Orange Dark"></td>
     </tr>
     <tr>
     <th>Pink</th>
-    <td><img src="assets/screenshots/light-air-pink.png" alt="Air Pink Light"></td>
-    <td><img src="assets/screenshots/dark-air-pink.png" alt="Air Pink Dark"></td>
+    <td><img src="assets/screenshots/light-air-pink.png" alt="Lacold Pink Light"></td>
+    <td><img src="assets/screenshots/dark-air-pink.png" alt="Lacold Pink Dark"></td>
     </tr>
     <tr>
     <th>Purple</th>
-    <td><img src="assets/screenshots/light-air-purple.png" alt="Air Purple Light"></td>
-    <td><img src="assets/screenshots/dark-air-purple.png" alt="Air Purple Dark"></td>
+    <td><img src="assets/screenshots/light-air-purple.png" alt="Lacold Purple Light"></td>
+    <td><img src="assets/screenshots/dark-air-purple.png" alt="Lacold Purple Dark"></td>
     </tr>
     <tr>
     <th>Rainbow</th>
-    <td><img src="assets/screenshots/light-air-rainbow.png" alt="Air Rainbow Light"></td>
-    <td><img src="assets/screenshots/dark-air-rainbow.png" alt="Air Rainbow Dark"></td>
+    <td><img src="assets/screenshots/light-air-rainbow.png" alt="Lacold Rainbow Light"></td>
+    <td><img src="assets/screenshots/dark-air-rainbow.png" alt="Lacold Rainbow Dark"></td>
     </tr>
 </tbody>
 </table>
@@ -106,7 +105,7 @@ when both modes are selected. Kitty also produces automatic-appearance bundles.
 
 ## Design
 
-Air keeps ordinary syntax neutral and uses authored accents for structure,
+Lacold keeps ordinary syntax neutral and uses authored accents for structure,
 navigation, and selection. Diagnostics, diffs, search, and terminal ANSI colors
 use consistent semantic roles across every variant.
 

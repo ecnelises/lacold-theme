@@ -6,7 +6,7 @@ Fish's native theme command:
 ```fish
 mkdir -p ~/.config/fish/themes
 cp themes/*.theme ~/.config/fish/themes/
-fish_config theme choose lacold-air-blue
+fish_config theme choose lacold-blue
 ```
 
 Add the `fish_config theme choose` command to `~/.config/fish/config.fish` to
